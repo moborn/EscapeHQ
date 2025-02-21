@@ -4,24 +4,20 @@
 			"path": "."
 		},
 		{
-			"name": "Jaildoor",
-			"path": "Jailbreak/Jaildoor"
+			"name": "TheFarm",
+			"path": "MOO/TheFarm"
 		},
 		{
-			"name": "Bench Puzzle",
-			"path": "Jailbreak/Bench Puzzle"
+			"name": "Cattletruck",
+			"path": "MOO/Cattletruck"
 		},
 		{
-			"name": "Keypad",
-			"path": "Jailbreak/Keypad"
+			"name": "Insemination",
+			"path": "MOO/Insemination"
 		},
 		{
-			"name": "Wardrobe",
-			"path": "Backstage/Wardrobe"
-		},
-		{
-			"name": "Explosive",
-			"path": "Jailbreak/Explosive"
+			"name": "Breakfast",
+			"path": "MOO/Breakfast"
 		}
 	],
 	"settings": {}

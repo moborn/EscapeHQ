@@ -20,3 +20,6 @@ All coding can be done in the same IDE
 To flash to ardunio, you will need to have installed PlatformIO extension in VSCode. 
     Then open whichever PlatformIO project folder for the puzzle in question
         PlatformIO (from sidebar) -> open -> open project -> navigate to local folder
+
+The reason why there is a seperate PlatformIO project created for each puzzle is incase puzzles use different Ardunio boards - they can be individually assigned
+Also (just like arduino) it struggles when there's multiple 'main.cpp' files and cant flash to controller properly
