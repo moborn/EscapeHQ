@@ -17,6 +17,8 @@ I think ArduinoIDE does the same, but less directly compatible with GitHub.
 PlatformIO and VScode also makes coding easier if switching between C for arduino or python for raspberrypi
 All coding can be done in the same IDE
 
+To access any particular script, go {Room name} -> {Puzzle Name} -> src -> {Puzzle Name.cpp}
+
 To flash to ardunio, you will need to have installed PlatformIO extension in VSCode. 
     Then open whichever PlatformIO project folder for the puzzle in question
         PlatformIO (from sidebar) -> open -> open project -> navigate to local folder
