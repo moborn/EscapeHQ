@@ -1,4 +1,4 @@
-#include "Arduino.h"
+#include <Arduino.h>
 const int maglockpin = 8; // Maglock pin
 const int reedpin = A2; // Reed Swith pin
 
