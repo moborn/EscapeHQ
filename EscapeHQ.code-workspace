@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "Jaildoor",
+			"path": "Jailbreak/Jaildoor"
+		},
+		{
+			"name": "Bench Puzzle",
+			"path": "Jailbreak/Bench Puzzle"
+		},
+		{
+			"name": "Keypad",
+			"path": "Jailbreak/Keypad"
+		},
+		{
+			"name": "Wardrobe",
+			"path": "Backstage/Wardrobe"
+		},
+		{
+			"name": "Explosive",
+			"path": "Jailbreak/Explosive"
+		}
+	],
+	"settings": {}
+}
