@@ -29,6 +29,7 @@
  * Copyright 2020, mattc.creativesolutions@gmail.com
  */
 #include <MFRC522.h>
+#include <Arduino.h>
 #include <SPI.h>
 
 #define SIG_PIN 2     // <-- Signal pin (maglock)
