@@ -23,3 +23,7 @@ To flash to ardunio, you will need to have installed PlatformIO extension in VSC
 
 The reason why there is a seperate PlatformIO project created for each puzzle is incase puzzles use different Ardunio boards - they can be individually assigned
 Also (just like arduino) it struggles when there's multiple 'main.cpp' files and cant flash to controller properly
+
+.fzz files are fritzing files! these are circuit diagrams!!! I've mostly only found for Moo as of yet, but very good to have
+we can continue this trend and create further circuit documents also in fritzing, rather than changing software
+fritzing is a $15 fee to download
