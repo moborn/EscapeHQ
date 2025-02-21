@@ -115,7 +115,7 @@ void loop() {
   {    
     // Check for puzzle reset (Master Card)
     if(new_card.compare(master_card)){
-      Serial.println(F(" -> Master Card Reset");
+      Serial.println(F(" -> Master Card Reset"));
       pinMode(SIG_PIN, OUTPUT);
       digitalWrite(SIG_PIN, HIGH);
       Serial.println(F(" -- Puzzle Reset -- "));
