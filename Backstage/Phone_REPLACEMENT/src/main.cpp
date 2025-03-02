@@ -9,12 +9,23 @@
 // https://github.com/poprhythm/Touch-Tone-Midi/blob/main/TouchToneMidi/TouchToneMidi.ino
 
 
-// input-output pin combinations for all the keypad buttons
+// input-output pin combinations for all the keypad buttons>
+// this was the old (tested) arrangement, using all digital IO pins
+// MatrixButton keypad[] = {
+//   {5, 7},    /* 0 */  {2, 6}, /* 1 */  {2, 7}, /* 2 */  {2, 8}, /* 3 */
+//   {3, 6},    /* 4 */  {3, 7}, /* 5 */  {3, 8}, /* 6 */
+//   {4, 6},    /* 7 */  {4, 7}, /* 8 */  {4, 8}  /* 9 */
+// };
+
+//as MP3 board uses a large number of the pins, the buttonmapping matrix above cant be used. 
+//MP3 board DOESN'T use analog pins, or digital pins 5+10
+// analog pins can work as digital, A0 => 14, A1 => 15 etc
+// so pins 5, 10, 14, 15, 16, 17, 18 are available for phone buttons
 MatrixButton keypad[] = {
-  {5, 7},    /* 0 */  {2, 6}, /* 1 */  {2, 7}, /* 2 */  {2, 8}, /* 3 */
-  {3, 6},    /* 4 */  {3, 7}, /* 5 */  {3, 8}, /* 6 */
-  {4, 6},    /* 7 */  {4, 7}, /* 8 */  {4, 8}  /* 9 */
-};
+    {5, 10},    /* 0 */  {14, 17}, /* 1 */  {14, 10}, /* 2 */  {14, 18}, /* 3 */
+    {15, 17},    /* 4 */  {15, 10}, /* 5 */  {15, 18}, /* 6 */
+    {16, 17},    /* 7 */  {16, 10}, /* 8 */  {16, 18}  /* 9 */
+  };
 
 static byte lastKey = 255;
 static byte count = 0;
@@ -102,7 +113,7 @@ void loop() {
 
           //play dial tone
           MP3player.playTrack(i);
-          
+
           //if code is 3 digits long, print it
           //this is where the code is actually used
 
