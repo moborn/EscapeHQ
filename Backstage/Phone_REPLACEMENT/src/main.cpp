@@ -1,4 +1,8 @@
 #include "MatrixButton.h"
+#include <Arduino.h>
+#include <SPI.h>
+#include <SdFat.h>
+#include <vs1053_SdFat.h>
 	
 
 /// button code from here https://www.instructables.com/Touch-Tone-MIDI-Phone/
@@ -7,10 +11,9 @@
 
 // input-output pin combinations for all the keypad buttons
 MatrixButton keypad[] = {
-  {2, 6},    /* 1 */  {2, 7}, /* 2 */  {2, 8}, /* 3 */
+  {5, 7},    /* 0 */  {2, 6}, /* 1 */  {2, 7}, /* 2 */  {2, 8}, /* 3 */
   {3, 6},    /* 4 */  {3, 7}, /* 5 */  {3, 8}, /* 6 */
-  {4, 6},    /* 7 */  {4, 7}, /* 8 */  {4, 8}, /* 9 */
-  {10, 6}, /* * */  {5, 7}, /* 0 */  {10, 8}  /* # */
+  {4, 6},    /* 7 */  {4, 7}, /* 8 */  {4, 8}  /* 9 */
 };
 
 static byte lastKey = 255;
@@ -22,15 +25,46 @@ int codeIndex = 0;
 
 static int correctCode[] = {5,5,7};
 
+/**
+ * \brief Object instancing the SdFat library.
+ *
+ * principal object for handling all SdCard functions.
+ */
+SdFat sd;
+
+/**
+ * \brief Object instancing the vs1053 library.
+ *
+ * principal object for handling all the attributes, members and functions for the library.
+ */
+vs1053 MP3player;
+
+
 void setup() {
   // initialize keypad button states
-  Serial.begin(9600);
+  Serial.begin(115200);
   for (byte i = 0; i < 12; i++)
       keypad[i].begin();
 
+    //i assume below if statements are incase of sd read error
+    if(!sd.begin(9, SPI_HALF_SPEED)) sd.initErrorHalt();
+    if (!sd.chdir("/")) sd.errorHalt("sd.chdir");
+
+    MP3player.begin();
+    MP3player.setVolume(10,10); 
 }
 
 void loop() {
+
+  // Below is only needed if not interrupt driven. Safe to remove if not using. 
+  //this was included in library examples, so may as well keep
+    #if defined(USE_MP3_REFILL_MEANS) \
+    && ( (USE_MP3_REFILL_MEANS == USE_MP3_SimpleTimer) \
+    ||   (USE_MP3_REFILL_MEANS == USE_MP3_Polled)      )
+
+    MP3player.available();
+    #endif
+
   bool anyPressed = false;
   
   // scan keypad for key presses
@@ -66,6 +100,9 @@ void loop() {
           code[codeIndex] = i + 1;
           codeIndex++;
 
+          //play dial tone
+          MP3player.playTrack(i);
+          
           //if code is 3 digits long, print it
           //this is where the code is actually used
 

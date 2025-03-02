@@ -1,0 +1,3 @@
+The naming convention of 'track***.mp3" is important as this is how the library for sd card reading needs to interpret files
+
+tracks 000 through 009 are the corresponding dial tones for each button on a phone. ie, track000 is dial tone for '0', track009 is dial tone for '9'
