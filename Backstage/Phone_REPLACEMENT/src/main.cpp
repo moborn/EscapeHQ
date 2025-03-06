@@ -22,9 +22,9 @@
 // analog pins can work as digital, A0 => 14, A1 => 15 etc
 // so pins 5, 10, 14, 15, 16, 17, 18 are available for phone buttons
 MatrixButton keypad[] = {
-    {5, 10},    /* 0 */  {14, 17}, /* 1 */  {14, 10}, /* 2 */  {14, 18}, /* 3 */
-    {15, 17},    /* 4 */  {15, 10}, /* 5 */  {15, 18}, /* 6 */
-    {16, 17},    /* 7 */  {16, 10}, /* 8 */  {16, 18}  /* 9 */
+    {5, 19},    /* 0 */  {14, 17}, /* 1 */  {14, 19}, /* 2 */  {14, 18}, /* 3 */
+    {15, 17},    /* 4 */  {15, 19}, /* 5 */  {15, 18}, /* 6 */
+    {16, 17},    /* 7 */  {16, 19}, /* 8 */  {16, 18}  /* 9 */
   };
 
 static byte lastKey = 255;
@@ -35,6 +35,8 @@ int code[] = {0,0,0};
 int codeIndex = 0;
 
 static int correctCode[] = {5,5,7};
+
+int hanger_pin = 0;
 
 /**
  * \brief Object instancing the SdFat library.
@@ -54,15 +56,19 @@ vs1053 MP3player;
 void setup() {
   // initialize keypad button states
   Serial.begin(115200);
-  for (byte i = 0; i < 12; i++)
+  for (byte i = 0; i < 12; i++){
       keypad[i].begin();
+  }
 
     //i assume below if statements are incase of sd read error
     if(!sd.begin(9, SPI_HALF_SPEED)) sd.initErrorHalt();
     if (!sd.chdir("/")) sd.errorHalt("sd.chdir");
 
     MP3player.begin();
-    MP3player.setVolume(10,10); 
+    MP3player.setVolume(0x0000,0x0000);  //0x0000 is max volume
+
+  // pinMode(hanger_pin, INPUT_PULLUP);
+  
 }
 
 void loop() {
@@ -76,7 +82,10 @@ void loop() {
     MP3player.available();
     #endif
 
-  bool anyPressed = false;
+
+  // MP3player.enableTestSineWave(50);
+
+  
   
   // scan keypad for key presses
   for (byte i = 0; i < 12; i++)
@@ -99,16 +108,19 @@ void loop() {
       // this loop here should protect against floating pins, or whatevers going on in other phone circuitry
       //count is currently arbitrary, but should be enough consecutive 'pressed' states to be sure that button press is real
 
+
+      //this is fine and it works, but need to have something where it doesn't log multiple times if you hold button down
+      //this is very picky to add that in, so not top priority, but may as well.
       if (i == lastKey) {
         count++;
         if (count == 10) {
           // Serial.print("Key ");
-          Serial.print(i + 1);
+          Serial.print(i);
           // Serial.println(" pressed 10 times in a row");
           count = 0; // reset count after printing
 
           //add pressed number to stored code
-          code[codeIndex] = i + 1;
+          code[codeIndex] = i;
           codeIndex++;
 
           //play dial tone
@@ -117,23 +129,23 @@ void loop() {
           //if code is 3 digits long, print it
           //this is where the code is actually used
 
-          if (codeIndex == 3){
-            Serial.print("Code: ");
-            for (int i = 0; i < 3; i++){
-              Serial.print(code[i]);
-            }
-            Serial.println();
-            for (int i = 0; i < 3; i++){
-              if (code[i] != correctCode[i]){
-                break;
-                Serial.println("Code incorrect");
-              }
-              if (i == 2){
-                Serial.println("Code correct");
-              }
-            }
-            codeIndex = 0;
-          }
+          // if (codeIndex == 3){
+          //   Serial.print("Code: ");
+          //   for (int i = 0; i < 3; i++){
+          //     Serial.print(code[i]);
+          //   }
+          //   Serial.println();
+          //   for (int i = 0; i < 3; i++){
+          //     if (code[i] != correctCode[i]){
+          //       break;
+          //       Serial.println("Code incorrect");
+          //     }
+          //     if (i == 2){
+          //       Serial.println("Code correct");
+          //     }
+          //   }
+          //   codeIndex = 0;
+          // }
 
         }
       } else {
@@ -153,3 +165,4 @@ void loop() {
     // }
   }
 }
+
