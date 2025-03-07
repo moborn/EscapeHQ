@@ -36,7 +36,7 @@ int codeIndex = 0;
 
 static int correctCode[] = {5,5,7};
 
-int hanger_pin = 0;
+int hanger_pin = 3;
 
 /**
  * \brief Object instancing the SdFat library.
@@ -52,6 +52,8 @@ SdFat sd;
  */
 vs1053 MP3player;
 
+bool firstpress = false;
+char dialtone[] = "dialtone.mp3";
 
 void setup() {
   // initialize keypad button states
@@ -67,7 +69,7 @@ void setup() {
     MP3player.begin();
     MP3player.setVolume(0x0000,0x0000);  //0x0000 is max volume
 
-  // pinMode(hanger_pin, INPUT_PULLUP);
+  pinMode(hanger_pin, INPUT_PULLUP);
   
 }
 
@@ -86,8 +88,14 @@ void loop() {
   // MP3player.enableTestSineWave(50);
 
   
-  
+  if (digitalRead(hanger_pin) == LOW){
+  //  Serial.println("Hanger is off");
   // scan keypad for key presses
+  if (firstpress == false){
+    MP3player.playMP3(dialtone);
+    Serial.println("Dialtone playing");
+    
+  }
   for (byte i = 0; i < 12; i++)
   {
     bool hasChanged;
@@ -95,6 +103,7 @@ void loop() {
 
 
     if (state == MatrixButton::PRESSED){
+      firstpress = true;
       // anyPressed = true;
       // if (i == 4){
       //   Serial.println("5");
@@ -129,23 +138,23 @@ void loop() {
           //if code is 3 digits long, print it
           //this is where the code is actually used
 
-          // if (codeIndex == 3){
-          //   Serial.print("Code: ");
-          //   for (int i = 0; i < 3; i++){
-          //     Serial.print(code[i]);
-          //   }
-          //   Serial.println();
-          //   for (int i = 0; i < 3; i++){
-          //     if (code[i] != correctCode[i]){
-          //       break;
-          //       Serial.println("Code incorrect");
-          //     }
-          //     if (i == 2){
-          //       Serial.println("Code correct");
-          //     }
-          //   }
-          //   codeIndex = 0;
-          // }
+          if (codeIndex == 3){
+            Serial.print("Code: ");
+            for (int i = 0; i < 3; i++){
+              Serial.print(code[i]);
+            }
+            Serial.println();
+            for (int i = 0; i < 3; i++){
+              if (code[i] != correctCode[i]){
+                break;
+                // Serial.println("Code incorrect");
+              }
+              if (i == 2){
+                Serial.println("Code correct");
+              }
+            }
+            codeIndex = 0;
+          }
 
         }
       } else {
@@ -163,6 +172,11 @@ void loop() {
     //   Serial.print(i);
     //   Serial.println(" released");
     // }
+  }
+}
+  else {
+    Serial.println("Hanger is on");
+    firstpress = false;
   }
 }
 
