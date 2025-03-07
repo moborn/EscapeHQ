@@ -131,26 +131,31 @@ void loop() {
           //add pressed number to stored code
           code[codeIndex] = i;
           codeIndex++;
-
+          // Serial.println(codeIndex);
           //play dial tone
           MP3player.playTrack(i);
+          
 
+
+          // Serial.println(codeIndex);
+          
           //if code is 3 digits long, print it
           //this is where the code is actually used
 
           if (codeIndex == 3){
+            Serial.println();
             Serial.print("Code: ");
             for (int i = 0; i < 3; i++){
               Serial.print(code[i]);
             }
-            Serial.println();
+            // Serial.print();
             for (int i = 0; i < 3; i++){
               if (code[i] != correctCode[i]){
                 break;
                 // Serial.println("Code incorrect");
               }
               if (i == 2){
-                Serial.println("Code correct");
+                Serial.println(" is correct!");
               }
             }
             codeIndex = 0;
@@ -175,7 +180,7 @@ void loop() {
   }
 }
   else {
-    Serial.println("Hanger is on");
+    // Serial.println(codeIndex);
     firstpress = false;
   }
 }
