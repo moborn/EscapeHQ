@@ -133,11 +133,11 @@ void loop() {
             // Serial.print();
             for (int i = 0; i < 3; i++){
               if (code[i] != correctCode[i]){
-                // MP3player.playMP3(ring);
-                // delay(10000);
-                // MP3player.playMP3(wrong);
-                // delay(7500);
-                // MP3player.playMP3(hangup);
+                MP3player.playMP3(ring);
+                delay(10000);
+                MP3player.playMP3(wrong);
+                delay(7500);
+                MP3player.playMP3(hangup);
 
                 break;
                 // Serial.println("Code incorrect");
@@ -170,7 +170,7 @@ void loop() {
   }
 }
   else {
-    Serial.println("Hanger is on");
+    // Serial.println("Hanger is on");
     // Serial.println(codeIndex);
     firstpress = false;
   }
