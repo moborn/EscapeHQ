@@ -165,10 +165,10 @@ void loop()
       // Serial.print("Code: ");
 
       // Serial.print();
-      for (int i = 0; i < 3; i++)
+      for (int j = 0; j < 3; j++)
       {
 
-        if (code[i] != correctCode[i])
+        if (code[j] != correctCode[j])
         {
           // MP3player.playMP3(ring);
           // delay(10000);
@@ -188,7 +188,7 @@ void loop()
           //   }
         }
 
-        else if (i == 2)
+        else if (j == 2)
         {
           // Serial.println(" is correct!");
           MP3player.playMP3(ring);
