@@ -53,7 +53,12 @@ SdFat sd;
 vs1053 MP3player;
 
 bool firstpress = false;
+bool wrongnumber = false;
 char dialtone[] = "dialtone.mp3";
+char ring[] = "ring.mp3";
+char correct_audio[] = "correct_num.mp3";
+char hangup[] = "hangup.mp3";
+char wrong[] = "wrong_num.mp3";
 
 void setup() {
   // initialize keypad button states
@@ -70,24 +75,28 @@ void setup() {
     MP3player.setVolume(0x0000,0x0000);  //0x0000 is max volume
 
   pinMode(hanger_pin, INPUT_PULLUP);
+
+ 
   
 }
 
 void loop() {
 
-  // Below is only needed if not interrupt driven. Safe to remove if not using. 
-  //this was included in library examples, so may as well keep
-    #if defined(USE_MP3_REFILL_MEANS) \
-    && ( (USE_MP3_REFILL_MEANS == USE_MP3_SimpleTimer) \
-    ||   (USE_MP3_REFILL_MEANS == USE_MP3_Polled)      )
+ //below was in the examples. may as well use.
+  #if defined(USE_MP3_REFILL_MEANS) \
+  && ( (USE_MP3_REFILL_MEANS == USE_MP3_SimpleTimer) \
+  ||   (USE_MP3_REFILL_MEANS == USE_MP3_Polled)      )
 
-    MP3player.available();
-    #endif
+  MP3player.available();
+  #endif
+
 
 
   // MP3player.enableTestSineWave(50);
 
   
+  
+
   if (digitalRead(hanger_pin) == LOW){
   //  Serial.println("Hanger is off");
   // scan keypad for key presses
@@ -96,6 +105,8 @@ void loop() {
     Serial.println("Dialtone playing");
     
   }
+
+
   for (byte i = 0; i < 12; i++)
   {
     bool hasChanged;
@@ -103,7 +114,7 @@ void loop() {
 
 
     if (state == MatrixButton::PRESSED){
-      firstpress = true;
+      // firstpress = true;
       // anyPressed = true;
       // if (i == 4){
       //   Serial.println("5");
@@ -123,7 +134,9 @@ void loop() {
       if (i == lastKey) {
         count++;
         if (count == 10) {
+          MP3player.stopTrack();//this stops the dialtone
           // Serial.print("Key ");
+          firstpress = true;
           Serial.print(i);
           // Serial.println(" pressed 10 times in a row");
           count = 0; // reset count after printing
@@ -134,7 +147,16 @@ void loop() {
           // Serial.println(codeIndex);
           //play dial tone
           MP3player.playTrack(i);
-          
+        }
+      }
+      else {
+        lastKey = i;
+        count = 1;
+      }
+      delay(15);
+
+  }
+  }
 
 
           // Serial.println(codeIndex);
@@ -143,45 +165,55 @@ void loop() {
           //this is where the code is actually used
 
           if (codeIndex == 3){
-            Serial.println();
-            Serial.print("Code: ");
-            for (int i = 0; i < 3; i++){
-              Serial.print(code[i]);
-            }
+            // Serial.println();
+            // Serial.print("Code: ");
+            
             // Serial.print();
             for (int i = 0; i < 3; i++){
+
               if (code[i] != correctCode[i]){
-                break;
+                // MP3player.playMP3(ring);
+                // delay(10000);
+                // MP3player.playMP3(wrong);
+                // delay(7500);
+                // MP3player.playMP3(hangup);
+                // while (digitalRead(hanger_pin)==LOW){
+                //   continue;
+                // }
                 // Serial.println("Code incorrect");
-              }
-              if (i == 2){
-                Serial.println(" is correct!");
+                wrongnumber = true;
+
+                break;
+                // while (wrongnumber == true){
+                //   if (digitalRead(hanger_pin) == HIGH){
+                //     wrongnumber = false;
+                //   }
+                }
+              
+              else if (i == 2){
+                // Serial.println(" is correct!");
+                MP3player.playMP3(ring);
+                delay(10000); //let track play fully and then end
+                MP3player.playMP3(correct_audio);
+                delay(7500); 
+                MP3player.playMP3(hangup);
+                
+                
               }
             }
             codeIndex = 0;
           }
 
-        }
-      } else {
-        lastKey = i;
-        count = 1;
-      }
 
 
       
-      delay(10);
-      }
+        }      
 
-    // else if (state == MatrixButton::RELEASED && hasChanged){
-    //   Serial.print("Key ");
-    //   Serial.print(i);
-    //   Serial.println(" released");
-    // }
-  }
-}
-  else {
+   
+else {
     // Serial.println(codeIndex);
     firstpress = false;
   }
 }
+
 
