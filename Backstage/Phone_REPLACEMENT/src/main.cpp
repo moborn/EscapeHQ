@@ -78,7 +78,7 @@ void loop() {
     #endif
   // MP3player.enableTestSineWave(50);
   
-  if (digitalRead(hanger_pin) == LOW){
+  if (digitalRead(hanger_pin) == LOW && wrongnumber == false){
   //  Serial.println("Hanger is off");
   // scan keypad for key presses
   if (firstpress == false && MP3player.isPlaying() == false){
@@ -145,7 +145,7 @@ void loop() {
                 MP3player.playMP3(wrong);
                 delay(7500);
                 MP3player.playMP3(hangup);
-
+                wrongnumber = true;
                 break;
                 // Serial.println("Code incorrect");
               }
@@ -180,12 +180,16 @@ void loop() {
     // }
   }
 }
-  else {
+  else if (digitalRead(hanger_pin) == HIGH){
     // Serial.println("Hanger is on");
     // Serial.println(codeIndex);
     MP3player.stopTrack();
     firstpress = false;
     codeIndex = 0;
+    wrongnumber = false;
 
+  }
+  else{
+    // Serial.println("Hanger is off, but wrong number");
   }
 }
