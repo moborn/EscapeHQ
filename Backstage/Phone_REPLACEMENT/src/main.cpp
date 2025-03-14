@@ -48,6 +48,7 @@ char ring[] = "ring.mp3";
 char correct_audio[] = "correct_num.mp3";
 char hangup[] = "hangup.mp3";
 char wrong[] = "wrong_num.mp3";
+char dialtone_long[] = "dialtone_long.mp3";
 
 int relaypin = 10;
 
@@ -80,8 +81,9 @@ void loop() {
   if (digitalRead(hanger_pin) == LOW){
   //  Serial.println("Hanger is off");
   // scan keypad for key presses
-  if (firstpress == false){
-    MP3player.playMP3(dialtone);
+  if (firstpress == false && MP3player.isPlaying() == false){
+
+    MP3player.playMP3(dialtone_long);
     Serial.println("Dialtone playing");
     
   }
@@ -90,7 +92,7 @@ void loop() {
     bool hasChanged;
     bool state = keypad[i].read(hasChanged);
     if (state == MatrixButton::PRESSED){
-      firstpress = true;
+      // firstpress = true;
       // anyPressed = true;
       // if (i == 4){
       //   Serial.println("5");
@@ -107,6 +109,7 @@ void loop() {
       if (i == lastKey) {
         count++;
         if (count == 10) {
+          firstpress = true;
           MP3player.stopTrack();//this stops the dialtone
           // Serial.print("Key ");
           Serial.print(i);
@@ -180,6 +183,9 @@ void loop() {
   else {
     // Serial.println("Hanger is on");
     // Serial.println(codeIndex);
+    MP3player.stopTrack();
     firstpress = false;
+    codeIndex = 0;
+
   }
 }
