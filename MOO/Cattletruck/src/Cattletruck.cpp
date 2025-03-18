@@ -21,7 +21,7 @@
 #define PROX_PIN 13   // <-- E18-D8ONK Proximity Sensor
 #define L_DELAY 50    // <-- Loop iteration delay (ms)
 
-const static byte max_number_balls = 14;  // (= 6 + 6 + 2)
+const static byte max_number_balls = 9;  // (= 6 + 6 + 2)
 bool prox_triggered = false;
 bool ball_detected = false;
 byte ball_counter = 0;
