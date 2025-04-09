@@ -142,9 +142,10 @@ void loop() {
             for (int i = 0; i < 7; i++){
               if (code[i] != correctCode[i]){
                 // MP3player.playMP3(ring);
-                delay(10000);
+                // delay(10000);
                 // MP3player.playMP3(wrong);
-                delay(7500);
+                // delay(7500);
+                delay(2000);//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
                 // MP3player.playMP3(hangup);
                 Serial.println("Code incorrect");
 
@@ -155,11 +156,12 @@ void loop() {
                 Serial.println("Code correct");
                 // Serial.println(" is correct!");
                 // MP3player.playMP3(ring);
-                delay(10000); //let track play fully and then end
+                // delay(10000); //let track play fully and then end
                 // MP3player.playMP3(correct_audio);
-                delay(7500); 
+                // delay(7500); 
                 // MP3player.playMP3(hangup);
-                delay(10000);
+                // delay(10000);
+                delay(2000);//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
                 digitalWrite(relaypin, HIGH);
                 delay(1000);
                 digitalWrite(relaypin, LOW);

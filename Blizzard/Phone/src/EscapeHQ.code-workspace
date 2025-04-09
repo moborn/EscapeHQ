@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"name": "Phone",
+			"path": ".."
+		},
+		{
+			"name": "Phone_REPLACEMENT",
+			"path": "../../../Backstage/Phone_REPLACEMENT"
+		}
+	],
+	"settings": {}
+}
