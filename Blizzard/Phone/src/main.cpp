@@ -109,7 +109,7 @@ void loop() {
       //this is very picky to add that in, so not top priority, but may as well.
       if (i == lastKey) {
         count++;
-        if (count == 8) {
+        if (count == 10) {
           firstpress = true;
           // MP3player.stopTrack();//this stops the dialtone
           // Serial.print("Key ");
