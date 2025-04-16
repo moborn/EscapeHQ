@@ -25,9 +25,9 @@ MatrixButton keypad[] = {
 static byte lastKey = 255;
 static byte count = 0;
 //currently only stores 3 digit code, so every 3 button presses
-int code[] = {0,0,0,0,0,0,0};
+int code[] = {0,0,0,0,0,0,0,0};
 int codeIndex = 0;
-static int correctCode[] = {4,8,9,4,9,9,9};
+static int correctCode[] = {9,4,8,9,4,9,9,9};
 int hanger_pin = 3;
 /**
  * \brief Object instancing the SdFat library.
@@ -93,6 +93,7 @@ void loop() {
     bool hasChanged;
     bool state = keypad[i].read(hasChanged);
     if (state == MatrixButton::PRESSED){
+      // Serial.println(state);
       // firstpress = true;
       // anyPressed = true;
       // if (i == 4){
@@ -101,15 +102,17 @@ void loop() {
       // else if (i == 6){
       //   Serial.println("7");
       // }
-      
-      
+      while (state == MatrixButton::PRESSED){
+        state = keypad[i].read(hasChanged);
+      }
+      // Serial.println("new state = " + String(state));
       // this loop here should protect against floating pins, or whatevers going on in other phone circuitry
       //count is currently arbitrary, but should be enough consecutive 'pressed' states to be sure that button press is real
       //this is fine and it works, but need to have something where it doesn't log multiple times if you hold button down
       //this is very picky to add that in, so not top priority, but may as well.
-      if (i == lastKey) {
-        count++;
-        if (count == 10) {
+      if (state == MatrixButton::RELEASED) {
+        // count++;
+        // if (count == 10) {
           firstpress = true;
           // MP3player.stopTrack();//this stops the dialtone
           // Serial.print("Key ");
@@ -131,15 +134,15 @@ void loop() {
           //if code is 3 digits long, print it
           //this is where the code is actually used
 
-          if (codeIndex == 7){
+          if (codeIndex == 8){
             Serial.println();
             Serial.print("Code: ");
-            for (int i = 0; i < 7; i++){
+            for (int i = 0; i < 8; i++){
               Serial.print(code[i]);
             }
             Serial.println();
             // Serial.print();
-            for (int i = 0; i < 7; i++){
+            for (int i = 0; i < 8; i++){
               if (code[i] != correctCode[i]){
                 // MP3player.playMP3(ring);
                 // delay(10000);
@@ -152,7 +155,7 @@ void loop() {
                 wrongnumber = true;
                 break;
               }
-              if (i == 6){
+              if (i == 7){
                 Serial.println("Code correct");
                 // Serial.println(" is correct!");
                 // MP3player.playMP3(ring);
@@ -169,7 +172,7 @@ void loop() {
             }
             codeIndex = 0;
           }
-        }
+        // }
       } else {
         lastKey = i;
         count = 1;
