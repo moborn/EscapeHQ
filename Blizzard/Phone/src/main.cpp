@@ -60,10 +60,10 @@ void setup() {
       keypad[i].begin();
   }
     // //i assume below if statements are incase of sd read error
-    // if(!sd.begin(9, SPI_HALF_SPEED)) sd.initErrorHalt();
-    // if (!sd.chdir("/")) sd.errorHalt("sd.chdir");
-    // MP3player.begin();
-    // MP3player.setVolume(0x0000,0x0000);  //0x0000 is max volume
+    if(!sd.begin(9, SPI_HALF_SPEED)) sd.initErrorHalt();
+    if (!sd.chdir("/")) sd.errorHalt("sd.chdir");
+    MP3player.begin();
+    MP3player.setVolume(40,40);  //0x0000 is max volume
   pinMode(hanger_pin, INPUT_PULLUP);
   pinMode(relaypin, OUTPUT);
   digitalWrite(relaypin, LOW);
@@ -72,11 +72,11 @@ void setup() {
 void loop() {
   // Below is only needed if not interrupt driven. Safe to remove if not using. 
   //this was included in library examples, so may as well keep
-    // #if defined(USE_MP3_REFILL_MEANS) \
-    // && ( (USE_MP3_REFILL_MEANS == USE_MP3_SimpleTimer) \
-    // ||   (USE_MP3_REFILL_MEANS == USE_MP3_Polled)      )
-    // MP3player.available();
-    // #endif
+    #if defined(USE_MP3_REFILL_MEANS) \
+    && ( (USE_MP3_REFILL_MEANS == USE_MP3_SimpleTimer) \
+    ||   (USE_MP3_REFILL_MEANS == USE_MP3_Polled)      )
+    MP3player.available();
+    #endif
 
   // Serial.println("loop");
   
@@ -85,7 +85,7 @@ void loop() {
   // scan keypad for key presses
   if (firstpress == false && MP3player.isPlaying() == false){
 
-    // MP3player.playMP3(dialtone_long);
+    MP3player.playMP3(dialtone_long);
     Serial.println("Dialtone playing");
     
   }
@@ -103,6 +103,9 @@ void loop() {
       // else if (i == 6){
       //   Serial.println("7");
       // }
+      MP3player.stopTrack();//this stops the dialtone
+      MP3player.playTrack(i);
+
       while (state == MatrixButton::PRESSED){
         state = keypad[i].read(hasChanged);
       }
@@ -145,12 +148,13 @@ void loop() {
             // Serial.print();
             for (int i = 0; i < 8; i++){
               if (code[i] != correctCode[i]){
-                // MP3player.playMP3(ring);
-                // delay(10000);
-                // MP3player.playMP3(wrong);
-                // delay(7500);
-                delay(2000);//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
-                // MP3player.playMP3(hangup);
+                MP3player.stopTrack();
+                MP3player.playMP3("ring.mp3");
+                delay(8000);
+                MP3player.playMP3(wrong);
+                delay(11000);
+                // delay(2000);//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
+                MP3player.playMP3("hangup.mp3");
                 Serial.println("Code incorrect");
 
                 wrongnumber = true;
@@ -160,32 +164,33 @@ void loop() {
                 Serial.println("Code correct");
                 Serial.println(relaypin);
                 // Serial.println(" is correct!");
-                // MP3player.playMP3(ring);
-                // delay(10000); //let track play fully and then end
-                // MP3player.playMP3(correct_audio);
-                // delay(7500); 
-                // MP3player.playMP3(hangup);
+                MP3player.stopTrack();
+                MP3player.playMP3("ring.mp3");
+                delay(8000); //let track play fully and then end
+                MP3player.playMP3(correct_audio);
+                delay(25000); 
+                MP3player.playMP3("hangup.mp3");
                 // delay(10000);
                 // delay(2000);
-                //delay has been replaced, it wasn't working properly, I think it was a memory overrun or something
-                starttime = millis();
-                Serial.println(starttime);
+                // //delay has been replaced, it wasn't working properly, I think it was a memory overrun or something
+                // starttime = millis();
+                // Serial.println(starttime);
                 // // wait unti 1000 milliseconds have passed
-                while (millis() - starttime < 2000) {
-                  Serial.println(starttime);
-                  // do nothing, just wait
-                }//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
-                Serial.println(starttime);
+                // while (millis() - starttime < 2000) {
+                //   Serial.println(starttime);
+                //   // do nothing, just wait
+                // }//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
+                // Serial.println(starttime);
                 digitalWrite(relaypin, HIGH);
-                // delay(1000);
+                delay(1000);
                 // Serial.println(relaypin);
                 //delay has been replaced, it wasn't working properly, I think it was a memory overrun or something
-                starttime = millis();
+                // starttime = millis();
                 // wait unti 1000 milliseconds have passed
-                while (millis() - starttime < 1000) {
-                  // do nothing, just wait
-                  Serial.println(starttime);
-                }
+                // while (millis() - starttime < 1000) {
+                //   // do nothing, just wait
+                //   Serial.println(starttime);
+                // }
                 digitalWrite(relaypin, LOW);
                 // Serial.println(relaypin);
               }
@@ -210,7 +215,7 @@ void loop() {
   else if (digitalRead(hanger_pin) == HIGH){
     Serial.println("Hanger is on");
     // Serial.println(codeIndex);
-    // MP3player.stopTrack();
+    MP3player.stopTrack();
     firstpress = false;
     codeIndex = 0;
     wrongnumber = false;
