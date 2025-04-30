@@ -27,8 +27,8 @@ static byte count = 0;
 //currently only stores 3 digit code, so every 3 button presses
 int code[] = {0,0,0,0,0,0,0,0};
 int codeIndex = 0;
-static int correctCode[] = {9,4,8,9,4,9,9,9};
-int hanger_pin = 3;
+const int correctCode[] = {9,4,8,9,4,9,9,9};
+const int hanger_pin = 3;
 /**
  * \brief Object instancing the SdFat library.
  *
@@ -50,7 +50,8 @@ char hangup[] = "hangup.mp3";
 char wrong[] = "wrong_num.mp3";
 char dialtone_long[] = "dialtone_long.mp3";
 
-int relaypin = 10;
+const int relaypin = 10;
+volatile long unsigned int starttime; //this has to be the case otherwise memory overrun with int alone
 
 void setup() {
   // initialize keypad button states
@@ -157,6 +158,7 @@ void loop() {
               }
               if (i == 7){
                 Serial.println("Code correct");
+                Serial.println(relaypin);
                 // Serial.println(" is correct!");
                 // MP3player.playMP3(ring);
                 // delay(10000); //let track play fully and then end
@@ -164,10 +166,28 @@ void loop() {
                 // delay(7500); 
                 // MP3player.playMP3(hangup);
                 // delay(10000);
-                delay(2000);//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
+                // delay(2000);
+                //delay has been replaced, it wasn't working properly, I think it was a memory overrun or something
+                starttime = millis();
+                Serial.println(starttime);
+                // // wait unti 1000 milliseconds have passed
+                while (millis() - starttime < 2000) {
+                  Serial.println(starttime);
+                  // do nothing, just wait
+                }//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
+                Serial.println(starttime);
                 digitalWrite(relaypin, HIGH);
-                delay(1000);
+                // delay(1000);
+                // Serial.println(relaypin);
+                //delay has been replaced, it wasn't working properly, I think it was a memory overrun or something
+                starttime = millis();
+                // wait unti 1000 milliseconds have passed
+                while (millis() - starttime < 1000) {
+                  // do nothing, just wait
+                  Serial.println(starttime);
+                }
                 digitalWrite(relaypin, LOW);
+                // Serial.println(relaypin);
               }
             }
             codeIndex = 0;
