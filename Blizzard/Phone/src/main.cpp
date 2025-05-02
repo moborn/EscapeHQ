@@ -55,6 +55,8 @@ volatile long unsigned int starttime; //this has to be the case otherwise memory
 
 void setup() {
   // initialize keypad button states
+  pinMode(relaypin, OUTPUT);
+  digitalWrite(relaypin, LOW);
   Serial.begin(115200);
   for (byte i = 0; i < 10; i++){
       keypad[i].begin();
@@ -65,8 +67,8 @@ void setup() {
     MP3player.begin();
     MP3player.setVolume(40,40);  //0x0000 is max volume
   pinMode(hanger_pin, INPUT_PULLUP);
-  pinMode(relaypin, OUTPUT);
-  digitalWrite(relaypin, LOW);
+  // pinMode(relaypin, OUTPUT);
+  // digitalWrite(relaypin, LOW);
   
 }
 void loop() {
