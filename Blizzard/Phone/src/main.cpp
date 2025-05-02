@@ -184,15 +184,15 @@ void loop() {
                 // }//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
                 // Serial.println(starttime);
                 digitalWrite(relaypin, HIGH);
-                delay(1000);
+                // delay(1000);
                 // Serial.println(relaypin);
                 //delay has been replaced, it wasn't working properly, I think it was a memory overrun or something
-                // starttime = millis();
+                starttime = millis();
                 // wait unti 1000 milliseconds have passed
-                // while (millis() - starttime < 1000) {
-                //   // do nothing, just wait
-                //   Serial.println(starttime);
-                // }
+                while (millis() - starttime < 1000) {
+                  // do nothing, just wait
+                  // Serial.println(starttime);
+                }
                 digitalWrite(relaypin, LOW);
                 // Serial.println(relaypin);
               }
