@@ -1,4 +1,3 @@
-76% of storage used … If you run out of space, you can't save to Drive or back up Google Photos. Get 100 GB of storage for $3.49 $0.75/month for 3 months.
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import RPi.GPIO as gpio
