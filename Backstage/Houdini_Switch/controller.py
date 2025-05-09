@@ -8,7 +8,7 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 
 pi = pigpio.pi() #initialises pigpio
 
-PORT = 15005
+PORT = 15003
 
 # Misc pins
 ResetPin = 19
@@ -61,7 +61,7 @@ def resetRelays():
         pi.write(ExitDoorRelayPin, 1)
         pi.write(ResetPin, 1);
         try:
-            print(requests.get("http://darkside-guitar:15005/reset"))
+            print(requests.get("http://jailbreak:15003/reset"))
         except:
             print(traceback.format_exc())
 
@@ -83,7 +83,7 @@ def callbackFoodService(gpio, level, tick):
         printAll()
         print("Room service called")
         try:
-            print(requests.get("http://darkside-guitar:15005/room-service"))
+            print(requests.get("http://jailbreak:15003/room-service"))
         except:
             print(traceback.format_exc())
 
@@ -111,7 +111,7 @@ class requestHandler(BaseHTTPRequestHandler):
             pi.write(ClosetDoorRelayPin, 0)
         elif (request == "room-service"):
             try: 
-                print(requests.get("http://darkside-guitar:15005/room-service"))
+                print(requests.get("http://jailbreak:15003/room-service"))
             except:
                 print("can't connect to guitar raspi")
             

@@ -185,7 +185,7 @@ def reset_game():
     for r in relays:
         r.resetOUT()
     # notify Houdini the room has been reset
-    msg = urlopen(houdini "reset").read()
+    msg = urlopen(houdini +"reset").read()
     game_in_progress = False
     game_is_complete = True
     schedule_reset = False
