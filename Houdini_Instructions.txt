@@ -1,0 +1,134 @@
+Author: Michael Oborn
+Last edit: 15/05/2025
+
+Escape HQ uses a system of relays, raspberrypis, and the Houdini software to allow for remote control of rooms and their puzzles.
+
+The high level breakdown of how this system works is that:
+1. Houdini sends a web request (when instructed to) to a raspberrypi
+2. The raspberrypi, that has been listening for this specific request, then triggers a relay
+3. Triggering the relay cuts power to the specific puzzle in the room, therefore opening
+
+Relays, and raspberrypis, are in the large switchbox in the staff room. The wiring is a mess, don't go near it if you don't HAVE to
+The circuitry works so that with the switches closed, and the relay in a normally closed state, that power flows to the puzzle
+This way, either flipping the switch, or throwing the relay into an open state via raspberrypi IO, will break the circuit.
+
+To set up a raspberrypi from new, follow the below instructions:
+
+1. Download the raspberrypi imager - this a software, it is more straigtforward than downloading the raw os 
+    https://www.raspberrypi.com/software/
+
+2. Follow the instructions in the imager software, and establish all the configuration options (internet connect, username etc)
+    You will need to have a microSD card plugged in to the computer for this, adaptors work fine
+    You will be prompted for the internet password, which is currently (as of 15/5/25): EscapeFromTheRoom
+    Make sure that you configure SSH in this step. You will be prompted for the username, IP address, and password
+    * username = pi
+    * password = ehqtech@p7#
+    * IP address can be whatever you want, although room/puzzle name would make sense
+    Continue following imager instructions, flashing OS to the microSD card
+
+3. Connect via ssh (secure socket) to the raspberrypi for the first time
+    * Open a new terminal (I have been using VS codes built in terminal and that works fine) and run the following
+
+    ssh pi@{ip address}
+
+    Where the ip address is whatever you specified earlier in OS setup. Then enter the password, ehqtech@p7#, which will need to be typed and can't be pasted into terminal
+
+4. Run the following commands, line by line, in the terminal. 
+    If below text has a '#' on either end of the line, it is not a command, it is instructions or explanation
+    Everything else gets ran on terminal, line by line
+
+    #This installs python libraries#
+
+    sudo apt-get install python3-pip
+    sudo apt autoremove
+
+    #This creates the houdini service, it will create a file for you to write into#
+
+    sudo nano /lib/systemd/system/houdini.service
+
+    #Paste everything below into the created file#
+
+    # Houdini MC Service
+	[Unit]
+	Description=Houdini Script Service
+	After=network-online.target
+	[Service]
+	Type=idle
+	ExecStart=/usr/bin/python3 -u houdini.py
+	WorkingDirectory=/home/pi/Scripts
+	StandardOutput=inherit
+	StandardError=inherit
+	Restart=on-failure
+	User=pi
+	[Install]
+	WantedBy=multi-user.target
+	# EOF
+
+    #Press Ctrl + O, then press enter to write file#
+    #Ctrl + X to exit back to command line#
+
+    sudo cp /lib/systemd/system/houdini.service /etc/systemd/system/houdini.service
+    sudo chmod +x /etc/systemd/system/houdini.service
+    sudo systemctl daemon-reload
+    sudo systemctl enable houdini.service
+    sudo systemctl start houdini.service
+    sudo systemctl stop houdini.service
+
+    mkdir Scripts
+
+    sudo raspi-config
+
+    #This opens up an arrow key interactive menu. Press enter.#
+    #Navigate to #3 (interfacing options)#
+    #Navigate to I8 (remote GPIO)#
+    #Select yes#
+    #Exit this menu (finish)#
+
+    sudo systemctl enable pigpiod
+    sudo apt-get update
+    sudo pigpiod
+
+    #Here, install any other modules that your python script may use and are not auto installed with the OS (ie opencv, scikit etc)
+
+5. Close the terminal, and then re open a new terminal. Run the following command
+
+    scp {full path to file on local computer} pi@{ip address}:/home/pi/Scripts
+
+    It is important here that your main script file (ie, the one that interfaces with houdini) is titled 'houdini.py'.
+    In line 57 and 58 of this document, 'Scripts/houdini.py' is the file configured to run on raspberrypi startup.
+    So make sure your file is named correctly. 
+
+YOUR RASPBERRY PI SHOULD NOW BE FULLY SET UP
+
+6. Now the webrequests can be set up on the PC
+    Open up the Houdini instance for whichever room you are setting up
+    Go to Automations -> http requests
+
+    In the http requests window, there will be two dropdown menus beneath 'saved requests'
+    In the dropdown menu on the right, select 'new web request'
+
+    The identifier can be whatever you want, but make it something unique (good practice)
+    You want to create a GET request with the format
+
+    http://{ip address}:{local address}/{request_name}
+
+    For example, http://jailbreak:15003/relay_1 will communicate with jailbreak pi, 
+    which is listening for a web request containing ‘relay_1’
+
+    ip address is whatever you specified before (ie, jailbreak)
+    local address will need to have been specified in the houdini.py code (ie, 15003)
+    request_name will also have to align with what your houdini.py script is listening for
+
+    Select: Save -> OK -> close window
+
+    Now you will be back in the main Houdini screen. From here, go:
+    Shortcuts -> custom actions -> edit -> add action
+    There will be a dropdown menu, select 'webrequest'
+
+    You will get a new dropdown menu, selecting the specific web request you want 
+    (these will be named based on the identifiers specified above)
+    Set ‘name of the action’ to again, some identifier (this is the text shown inside the button that will appear)
+    Set the colour of the button to something unique (so that not all buttons for the room have the same colour)
+
+    Select: Save action -> OK
+

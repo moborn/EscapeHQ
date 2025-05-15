@@ -73,23 +73,16 @@ class Relay:
         GPIO.output(self.gpio, self.state) 
  
 # Physical GPIO pinouts (BCM) 
-p12 = Relay(18, 0, "relay_1")  # Exit Door 
-p16 = Relay(23, 0, "relay_2")  # Insemination 
-p18 = Relay(24, 0, "relay_3")  # Left Farm Panel
-p22 = Relay(25, 0, "relay_4")  # Right Farm Panel
-p32 = Relay(12, 0, "relay_5")  # Prize Cow
-p36 = Relay(16, 0, "relay_6")  # Breakfast Doors
-p38 = Relay(20, 0, "relay_7")  # Entry Door
-p40 = Relay(21, 0, "relay_8")  # 
+p12 = Relay(18, 0, "relay_1")  # Poster Open (Eye Mask)
+p16 = Relay(23, 0, "relay_2")  # Cell Door (Metal)
+p18 = Relay(24, 0, "relay_3")  # Dynamite (Exit)
+p22 = Relay(25, 0, "relay_4")  # Gun (Cell lock)
+p32 = Relay(12, 0, "relay_5")  # Entrance
+p36 = Relay(16, 0, "relay_6")  # Maintenace (Key maze puzzle)
+p38 = Relay(20, 0, "relay_7")  # Office Access (Keypad)
 
-p18 = Relay(24, 0, "relay_3")  # Left Farm Panel
-p22 = Relay(25, 0, "relay_4")  # Right Farm Panel
-p32 = Relay(12, 0, "relay_5")  # Prize Cow
-p36 = Relay(16, 0, "relay_6")  # Breakfast Doors
-p38 = Relay(20, 0, "relay_7")  # Entry Door
-p40 = Relay(21, 0, "relay_8")  # 
  
-relays = [p12,p16,p18,p22,p32,p36,p38,p40] 
+relays = [p12,p16,p18,p22,p32,p36,p38] 
  
 def switchRelayState(name): 
     for relay in relays: 

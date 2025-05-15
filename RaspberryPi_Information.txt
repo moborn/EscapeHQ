@@ -1,0 +1,32 @@
+Author: Michael Oborn
+Last Edit: 15/05/2025
+
+
+ROOM NAME  | PI's IP ADDRESS
+Blizzard 1 | raspberrypi
+Blizzard 2 | raspberrypi2
+Jailbreak  | jailbreak
+Moo        | raspberrypi4
+Backstage  | darkside-switch | darkside-chords | darkside-guitar
+
+THE PASSWORD FOR ALL RASPBERRY PI'S IS: ehqtech@p7#
+
+To connnect, run the following in a terminal:
+    ssh pi@{ip address}
+Then input password
+
+For all except backstage, may have to create 2 terminals - first will succeed in auto running python script, 
+second will fail to connect - and then you can actually access pi. 
+Not sure why this is, but opening a second terminal seemed to work for me.
+It also doesn't happen all the time, annoyingly
+
+USEFUL PI TERMINAL COMMANDS
+
+Create Folder | mkdir {folder name}
+Enter Folder | cd {folder name}
+Exit Folder | cd
+View Contents of Folder | ls
+Write File | scp {full path to file on local computer} pi@{pi’s ip address}:/home/pi/Scripts
+Run Script | {filename}.py
+Copy File From Pi to Computer (this will copy to the root directory the terminal is in) | scp pi@{name}:{full file path} .
+View Code | vim {filename}.py

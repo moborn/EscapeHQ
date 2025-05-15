@@ -147,4 +147,3 @@ except Exception:
     pi.write(ExitDoorRelayPin, 0)
     pi.stop()
     sys.exit()
-
