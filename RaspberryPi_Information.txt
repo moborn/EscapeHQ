@@ -29,4 +29,5 @@ View Contents of Folder | ls
 Write File | scp {full path to file on local computer} pi@{pi’s ip address}:/home/pi/Scripts
 Run Script | {filename}.py
 Copy File From Pi to Computer (this will copy to the root directory the terminal is in) | scp pi@{name}:{full file path} .
+/home/pi/{local path}
 View Code | vim {filename}.py
