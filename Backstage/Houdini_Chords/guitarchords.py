@@ -18,7 +18,8 @@ PORT = 15006
 
 complete = False
 
-HOUDINI_URL = "http://192.168.178.117:15005"
+# HOUDINI_URL = "http://192.168.178.117:15005"
+HOUDINI_URL = "http://192.168.178.74:14999"
 
 sequenceRequired = "05871"  #correct combo  
 sequence = collections.deque(maxlen=5)              #variable to store combo 
@@ -185,6 +186,6 @@ print("Server running")
 while(True):
     if complete:
         solved()
-        sleep(50)
+        sleep(40) ## THIS IS A DELAY IN SECONDS!! NOT MILLISECONDS
     else:
         mainRoutine()
