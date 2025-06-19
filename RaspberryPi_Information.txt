@@ -2,12 +2,13 @@ Author: Michael Oborn
 Last Edit: 15/05/2025
 
 
-ROOM NAME  | PI's IP ADDRESS
-Blizzard 1 | raspberrypi
-Blizzard 2 | raspberrypi2
-Jailbreak  | jailbreak
-Moo        | raspberrypi4
-Backstage  | darkside-switch | darkside-chords | darkside-guitar
+ROOM NAME    | PI's IP ADDRESS
+Blizzard 1   | raspberrypi
+Blizzard 2   | raspberrypi2
+Jailbreak    | jailbreak
+Moo          | raspberrypi4
+Backstage    | darkside-switch | darkside-chords | darkside-guitar
+Blizzard1 TV | blizz1screen
 
 THE PASSWORD FOR ALL RASPBERRY PI'S IS: ehqtech@p7#
 
