@@ -90,12 +90,20 @@ def switchRelayState(name):
 
 class requestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
+        # if GPIO.input(26) == 0:
+        #     print("flare trigger")
+        print(p32.getState())
         try:
+
             self.send_response(200)
             self.send_header('content-type', 'text/html')
             self.end_headers()
             request = self.path[1:] 
-            if 'relay' in request : switchRelayState(request) 
+            if 'relay' in request : switchRelayState(request)
+
+            
+            # else:
+            #     self.wfile.write(b"Relay 1 is OFF")
         except IOError: 
             self.send_error(500, "Server Error") 
  

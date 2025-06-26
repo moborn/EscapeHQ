@@ -23,13 +23,16 @@ x = 0 #x is the number of time the final puzzle was solved
 def exit():
     global x
     x = x + 1
-    urlopen("http://192.168.178.117:15001/stop")
+    print("pressed")
+    urlopen("http://192.168.178.74:15001/stop") ##blizz 1
+    # urlopen("http://192.168.178.74:15002/stop") ##blizz 2
     logging.debug('Final puzzle was sovled: ' + str(x))
 
 #############################################
 ################ MAIN LOOP ##################
 ############################################
 while True:
+    
     #button.when_released = exit
     button.when_pressed = exit
     sleep(10)

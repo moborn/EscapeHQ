@@ -54,6 +54,7 @@ timed event, 60min left, play sound, OR load file and then select the file in ro
 
 room editor-> soundtrack
 delete main theme
+room name (top layer of dropdown) -> save
 
 Houdini seems to have issues loading the main theme as a soundtrack
 but if you set it as an event to start with the timer it is seemingly reliable.
@@ -61,3 +62,9 @@ but if you set it as an event to start with the timer it is seemingly reliable.
 settings->connections
 remote access needs to be turned on. The 'in room screen' link there is what to point the rasp pi at.
 
+sudo nano /etc/crontab
+
+add the lines
+
+0 9 * * * root /sbin/shutdown -r now
+0 23 * * * root /sbin/shutdown -r now

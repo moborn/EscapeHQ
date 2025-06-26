@@ -8,7 +8,7 @@ Blizzard 2   | raspberrypi2
 Jailbreak    | jailbreak
 Moo          | raspberrypi4
 Backstage    | darkside-switch | darkside-chords | darkside-guitar
-Blizzard1 TV | blizz1screen
+jail TV | jailscreen
 
 THE PASSWORD FOR ALL RASPBERRY PI'S IS: ehqtech@p7#
 
