@@ -8,7 +8,7 @@ Blizzard 2   | raspberrypi2
 Jailbreak    | jailbreak
 Moo          | raspberrypi4
 Backstage    | darkside-switch | darkside-chords | darkside-guitar
-jail TV | jailscreen
+jail TV      | jailscreen
 
 THE PASSWORD FOR ALL RASPBERRY PI'S IS: ehqtech@p7#
 
@@ -32,3 +32,24 @@ Run Script | {filename}.py
 Copy File From Pi to Computer (this will copy to the root directory the terminal is in) | scp pi@{name}:{full file path} .
 /home/pi/{local path}
 View Code | vim {filename}.py
+
+Components that are dependent on computer ip address (ie, if the computer changes, these need to be changed): 
+exitSoundService.py (both blizzards, moo) - playing the respective exit sound
+jailscreen - displaying room screen
+
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from time import sleep                  # may need to "debounce" switches
+import threading
+import subprocess
+from http.server import ThreadingHTTPServer
+import os
+import shutil
+
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)  # Set's GPIO pins to BCM GPIO numbering
+GPIO.setwarnings(False)
+
+
+sudo nano /var/log/syslog
+ctrl+shift+-
+ctrl+V

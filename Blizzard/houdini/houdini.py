@@ -28,6 +28,7 @@ import socket
 from http.server import HTTPServer, BaseHTTPRequestHandler 
 import logging 
 import RPi.GPIO as GPIO 
+import subprocess
 logging.basicConfig(filename='relayLog.txt', level = logging.DEBUG, format='%(asctime)s %(message)s') 
  
 #Logging 
@@ -120,7 +121,10 @@ def main():
     server_address = (getLocalIP(), PORT)
     server = HTTPServer(server_address, requestHandler)
     print("Server running")
+    # subprocess.run(["python", "exitSoundService.py"])
     server.serve_forever()
+
 
 if __name__ == '__main__':
     main()
+

@@ -171,17 +171,17 @@ void loop() {
                 delay(8000); //let track play fully and then end
                 MP3player.playMP3(correct_audio);
                 delay(25000); 
-                MP3player.playMP3("hangup.mp3");
+                // MP3player.playMP3("hangup.mp3");
                 // delay(10000);
                 // delay(2000);
                 // //delay has been replaced, it wasn't working properly, I think it was a memory overrun or something
                 // starttime = millis();
                 // Serial.println(starttime);
                 // // wait unti 1000 milliseconds have passed
-                // while (millis() - starttime < 2000) {
-                //   Serial.println(starttime);
-                //   // do nothing, just wait
-                // }//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
+                while (millis() - starttime < 500) {
+                  // Serial.println(starttime);
+                  // do nothing, just wait  
+                }//this one is a placeholder, as there is currently no delay needed for audio to play. Will return to previous delay lengths when audio boards are here
                 // Serial.println(starttime);
                 digitalWrite(relaypin, HIGH);
                 // delay(1000);

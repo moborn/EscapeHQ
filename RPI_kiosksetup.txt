@@ -4,6 +4,7 @@ this was written with latest 64bit full install (not lite). (as of 19/6/25)
 sudo apt update
 sudo apt upgrade
 sudo apt-get install unclutter
+sudo apt install firefox-esr
 sudo raspi-config
 
 System options-> Boot -> Desktop Desktop GUI
@@ -15,7 +16,9 @@ Finish
 
 nano run_kiosk.sh
 /bin/chromium-browser  --kiosk --autoplay-policy=no-user-gesture-required --noerrdialogs --disable-infobars --enable-features=OverlayScrollbar https://time.is/Sydney &
+#/bin/firefox --display=:0 --kiosk-monitor 0 http://192.168.178.74:14997/room.html  --kiosk
 
+the commented line is firefox experiment. didn't work well.
 ctrl +x, y, enter
 
 sudo chmod +x run_kiosk.sh
@@ -27,7 +30,9 @@ sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 @xset s noblank
 @xset -dpms
 @unclutter -idle 3 -root
+@sleep 3s
 @/home/pi/run_kiosk.sh
+@python3 /home/pi/manual_pi_reboot.py
 
 ctrl +x, y, enter
 
@@ -41,7 +46,6 @@ sudo apt install systemd-timesyncd
 sudo nano  /etc/systemd/timesyncd.conf
 
 uncomment entire time block. NTP = time.nist.gov
-
 ctrl+x, y, enter
 
 sudo timedatectl set-timezone Pacific/Auckland
@@ -68,3 +72,6 @@ add the lines
 
 0 9 * * * root /sbin/shutdown -r now
 0 23 * * * root /sbin/shutdown -r now
+cd ~/.cache/chromium/Default
+
+sudo rm -r ~/.cache/chromium/Default/Cache/*
