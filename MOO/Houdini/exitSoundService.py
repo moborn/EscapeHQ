@@ -23,7 +23,7 @@ x = 0 #x is the number of time the final puzzle was solved
 def exit():
     global x
     x = x + 1
-    urlopen("http://192.168.178.117:15004/stop")
+    urlopen("http://192.168.178.74:15004/stop")
     logging.debug('Final puzzle was sovled: ' + str(x))
 
 #############################################

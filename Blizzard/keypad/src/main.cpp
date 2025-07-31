@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 /*
  * Author: Matt Cassidy
  * Date: 12/05/2020

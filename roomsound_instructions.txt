@@ -1,0 +1,11 @@
+TO ADD SOUND TO ROOMS (CONTROLLED BY HOUDINI)
+
+- get the sound file you want. This should be a .mp3 file, and longer than room duration 
+    (ie, longer than 1 hour. Houdini only starts the track once. 2hrs long is safe, even if its a loop)
+- Add the file to: This PC->Windows(C:)->Houdini_MC->{ROOM NAME}->rooms->{ROOM NAME}->main_theme
+
+Any additional sounds to play on houdini events will go into sounds folder, rather than main_theme folder. 
+For example, the moo_exit mp3 is in the sounds folder for moo, which only plays on room completion 
+rather than the 2hrs of farm sounds which plays on room start, which is in the main_theme folder
+
+Houdini will auto update, so that the main_theme sound will play when the room is started.

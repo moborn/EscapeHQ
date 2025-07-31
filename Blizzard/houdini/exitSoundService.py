@@ -4,32 +4,34 @@
 
 
 from time import sleep
-from http.server import SimpleHTTPRequestHandler, HTTPServer
-from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
+from http.server import HTTPServer, BaseHTTPRequestHandler
 from gpiozero import Button
-
-
 import logging
 logging.basicConfig(filename='exitSoundLog.txt', level = logging.DEBUG, format='%(asctime)s %(message)s')
-#logging call: 'logging.debug('message')'
 
-#Taking pin 26 as input
-button = Button(26)
+#Logging
+def log(message):
+    if(DEBUG):
+        logging.debug(message)
 
-x = 0 #x is the number of time the final puzzle was solved
+DEBUG = True
+ENDGAMEPIN = 26 #GPIO 26
+# ENDGAMEURL = "http://192.168.178.74:15002/stop" ##this is blizz 2
+ENDGAMEURL = "http://192.168.178.74:15001/stop" ## this is blizz 1
+button = Button(ENDGAMEPIN)
 
 #Function for when the final puzzle is finished
 def exit():
-    global x
-    x = x + 1
-    urlopen("http://192.168.178.117:15001/stop")
-    logging.debug('Final puzzle was sovled: ' + str(x))
+    urlopen(ENDGAMEURL)
+    print("flare trigger")
+    log("Final puzzle was sovled")
 
-#############################################
-################ MAIN LOOP ##################
-############################################
-while True:
-    #button.when_released = exit
-    button.when_pressed = exit
-    sleep(10)
+def main():
+            while True:
+                button.when_pressed = exit
+                sleep(10)
+
+#Main Loop
+if __name__ == '__main__':
+        main()

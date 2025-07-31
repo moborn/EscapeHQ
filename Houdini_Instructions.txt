@@ -89,7 +89,8 @@ To set up a raspberrypi from new, follow the below instructions:
     sudo pigpiod
 
     #Here, install any other modules that your python script may use and are not auto installed with the OS (ie opencv, scikit etc)
-
+    pip install pygame
+    sudo apt install python3-RPi.GPIO
 5. Close the terminal, and then re open a new terminal. Run the following command
 
     scp {full path to file on local computer} pi@{ip address}:/home/pi/Scripts
