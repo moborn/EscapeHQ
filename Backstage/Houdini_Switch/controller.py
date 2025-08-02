@@ -105,6 +105,10 @@ class requestHandler(BaseHTTPRequestHandler):
         request = self.path[1:]
         if (request == "open-exit"):
             pi.write(ExitDoorRelayPin, 0)
+            try: 
+                print(requests.get("http://darkside-guitar:15005/stop-theme"))
+            except:
+                print("can't connect to guitar raspi")
         elif (request == "open-front-door"):
             pi.write(FrontDoorRelayPin, 0)
         elif (request == "open-closet-door"):
