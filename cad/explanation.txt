@@ -1,0 +1,14 @@
+last updated 02/08/2025
+for manufacturing:
+
+CAD overall
+ - done in onshape, folders can't be shared with just a link - but files can.
+ - folders have to be shared to specific users (i will create onshape accounts for EHQ and give permissions)
+
+3D printing
+ - .3mf files created for the print jobs, storing colours/settings etc. Created with Bambu Studio
+ - Printed on Bambu labs P1S
+
+Laser cutting
+ - .svg files created with inkscape, following general laser cutting standard (red = cutting, black = engraving)
+ - Clear acrylic cut at UOA makerspace (trotec CO2 laser, diode lasers will not cut clear)
