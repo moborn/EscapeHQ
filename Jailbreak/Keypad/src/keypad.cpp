@@ -344,7 +344,7 @@ void setup() {
   pinMode(signalPin, OUTPUT);
   digitalWrite(signalPin, LOW);
 
-  pinMode(buttonPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
 
   // YX5300 Serial interface
   MP3Stream.begin(MD_YX5300::SERIAL_BPS);
