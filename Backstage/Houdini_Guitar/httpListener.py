@@ -1,10 +1,10 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-
 import RPi.GPIO as gpio
 import pygame
 import subprocess as sp
 import socket
 import time
+import os
 pygame.mixer.init()
 gpio.setmode(gpio.BCM)
 gpio.setup(13, gpio.OUT)
@@ -21,10 +21,26 @@ def resetPuzzles():
     sp.Popen.terminate(extProc)
     time.sleep(3)
     extProc = sp.Popen(['python','guitarsolo.py'], cwd='/home/pi/Scripts') # runs myPyScript.py
-
+def roomaudio(boolean):
+    pygame.mixer.music.load("/home/pi/Scripts/theme_2hrs.mp3")
+    if boolean == True:
+        with open(logging_file, 'a') as f:
+                    f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - main theme start\n")
+        print("main theme start")
+        pygame.mixer.music.set_volume(0.025)
+        pygame.mixer.music.play()
+    elif boolean == False:
+        with open(logging_file, 'a') as f:
+                    f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - main theme stop\n")
+        print("main theme stop")
+        pygame.mixer.music.stop()
 def playSound():
+    pygame.mixer.music.set_volume(1)
     pygame.mixer.music.load("/home/pi/Scripts/RoomService.mp3")
     pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy() == True:
+       continue
+    roomaudio(True)
 
 class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -37,14 +53,26 @@ class MyHandler(BaseHTTPRequestHandler):
             if not complete:
                 complete=True
                 print("Playing sound")
+                with open(logging_file, 'a') as f:
+                    f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - room service played\n")
+                roomaudio(False)
                 playSound()
         elif self.path == '/reset':
             print("reset called")
             complete=False
             resetPuzzles()
+            roomaudio(True)
         elif self.path == '/pop-guitar':
             print("overrride called")
+            roomaudio(False)
             gpio.output(13, gpio.HIGH)
+            with open(logging_file, 'a') as f:
+                f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - guitar popped\n")
+        elif self.path =='/stop-theme':
+            print("houdini exit trigger")
+            roomaudio(False)
+           # gpio.output(13, gpio.HIGH)
+
 
 ip = None
 while ip is None:
@@ -65,7 +93,20 @@ server = HTTPServer(server_address, MyHandler)
 
 print("Server running")
 
+logging_file = "/home/pi/Scripts/audiolog.txt"
+logging_file = os.path.join(os.path.expanduser("~"), logging_file)
 
+if os.path.exists(logging_file):
+    with open(logging_file, 'r') as f:
+        lines = f.readlines()
+    if len(lines) > 500:
+         os.remove(logging_file)
+         with open(logging_file, 'w') as f:
+             f.write("LOGGING FILE\n")
+else:   
+    with open(logging_file, 'w') as f:
+        f.write("LOGGING FILE\n")
+roomaudio(True)
 try :
     server.serve_forever()
 except:
