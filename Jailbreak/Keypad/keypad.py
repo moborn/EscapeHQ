@@ -1,4 +1,4 @@
-from pi_replacement import switchRelayState, stopSound
+from houdini import switchRelayState, stopSound
 
 
 import RPi.GPIO as GPIO
