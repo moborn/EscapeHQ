@@ -9,12 +9,15 @@ Jailbreak    | jailbreak
 Moo          | raspberrypi4
 Backstage    | darkside-switch | darkside-chords | darkside-guitar
 jail siren/office door | jail-siren
+backstage screen | backstage-screen
+jail screen | jail-screen
 
 
 THE PASSWORD FOR ALL RASPBERRY PI'S IS: ehqtech@p7#
 
 To connnect, run the following in a terminal:
     ssh pi@{ip address}
+
 Then input password
 
 For all except backstage, may have to create 2 terminals - first will succeed in auto running python script, 
