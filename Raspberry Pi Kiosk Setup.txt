@@ -28,7 +28,9 @@ NOOBS Raspbian (preinstalled on SD card from PBTech kit)
 5) Open a terminal, and run:
      sudo apt-get install -y xdotool
      sudo raspi-config
-6) In raspi-config, go to Advanced > A7 (Switch between X and Wayland backends), and pick W1 (X11). Close the Advanced menu, Finish config, and confirm save and reboot.
+6) In raspi-config, go to Advanced > A7 (Switch between X and Wayland backends), and pick W1 (X11). 
+Close the Advanced menu, go to Display Options > D2 (Screen Blanking) and pick No, then Ok
+Finish config, and confirm save and reboot.
 7) Changing the hostname can cause an issue with Chromium browser not opening. To fix that, open a terminal and run the command:
      rm -rf ~/.config/chromium/Singleton*
 8) Open the web browser and go to https://github.com/debloper/piosk

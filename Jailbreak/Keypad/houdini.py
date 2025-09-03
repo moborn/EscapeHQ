@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 import pygame
 import subprocess as sp
 
+
 pygame.mixer.init()
 logging.basicConfig(filename='relayLog.txt', level = logging.DEBUG, format='%(asctime)s %(message)s')
 
@@ -13,11 +14,12 @@ def log(message):
     if(DEBUG):
         logging.debug(message)
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 DEBUG = False
 PORT = 15007
-
+button_input_pin = 22
+#GPIO.setup(button_input_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 class Relay:
     def __init__(self, gpio, state, name):
         self.name = name
@@ -47,16 +49,24 @@ class Relay:
         self.changed = self.state != self.init_state 
         self.state = self.init_state 
         GPIO.output(self.gpio, self.state) 
-p38 = Relay(20, 0, "relay_7")  # Office Access (Keypad)
+p15 = Relay(15, 0, "relay_7")  # Office Access (Keypad)
 
-relays = [p38]
+relays = [p15]
 
 def playSound():
     pygame.mixer.music.set_volume(1)
+    print("playing sound")
     pygame.mixer.music.load("/home/pi/Scripts/jailalarm.mp3")
-    pygame.mixer.music.play()
+    pygame.mixer.music.play(-1)
+
 def stopSound():
+    print("stopping sound")
     pygame.mixer.music.stop()
+
+def buttonpressed():
+    print("button stopping sound")
+    pygame.mixer.music.stop()
+    #stopSound()
 
 def switchRelayState(name): 
     for relay in relays: 
@@ -67,7 +77,8 @@ def switchRelayState(name):
             log("{} is {}".format(relay.getName(), relay.getState())) 
             playSound()
             break
-extProc = sp.Popen(['python','keypad.py'], cwd='/home/pi/Scripts') 
+def keypadscript():
+    extProc = sp.Popen(['python','keypad.py'], cwd='/home/pi/Scripts') 
 
 class requestHandler(BaseHTTPRequestHandler):
     ##THIS IS THE CORE FUNCTION LISTENING TO HOUDINI
@@ -82,6 +93,7 @@ class requestHandler(BaseHTTPRequestHandler):
             if 'relay' in request : switchRelayState(request)
             elif 'stop-alarm' in request:
                 stopSound()
+            
         except IOError:
             self.send_error(500, "Server Error")
 
@@ -97,6 +109,8 @@ def getLocalIP():
 def main():
     print("Attempting Connection")
     print(getLocalIP())
+    print("running keypad script")
+    keypadscript()
     server_address = (getLocalIP(), PORT)
     server = HTTPServer(server_address, requestHandler)
     print("Server running")

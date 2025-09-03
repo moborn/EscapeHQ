@@ -22,7 +22,20 @@ def resetPuzzles():
     time.sleep(3)
     extProc = sp.Popen(['python','guitarsolo.py'], cwd='/home/pi/Scripts') # runs myPyScript.py
 def roomaudio(boolean):
-    pygame.mixer.music.load("/home/pi/Scripts/theme_2hrs.mp3")
+    ##add a try incase this fails
+    while True:
+        try:
+            pygame.mixer.music.load("/home/pi/Scripts/theme_2hrs.mp3")
+            break
+        except Exception as e:
+            ##try open file
+            try:
+                with open(logging_file, 'a') as f:
+                    f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - Error loading music: {e}, retrying in 1 second...\n")
+            except Exception as file_error:
+                print(f"Error opening log file: {file_error}")
+            print(f"Error loading music: {e}, retrying in 1 second...")
+            # time.sleep(1)
     if boolean == True:
         with open(logging_file, 'a') as f:
                     f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - main theme start\n")
