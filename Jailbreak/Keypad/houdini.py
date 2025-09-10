@@ -58,17 +58,21 @@ def playSound():
     # print("playing sound")
     # pygame.mixer.music.load("/home/pi/Scripts/jailalarm.mp3")
     # pygame.mixer.music.play(-1)
-    global player
-    player = sp.Popen(['python','player.py'], cwd='/home/pi/Scripts')
+    # global player
+    # player = sp.Popen(['python','player.py'], cwd='/home/pi/Scripts')
+
+    ##vol is in millibels. not sure on range/scale
+    sp.Popen(['omxplayer', '--loop', '--vol', '0', '/home/pi/Scripts/jailalarm.mp3', '&'])
 def stopSound():
     print("stopping sound")
     # pygame.mixer.music.stop()
-    sp.Popen.terminate(player)
+    # sp.Popen.terminate(player)
+    sp.Popen(['killall', 'omxplayer.bin'])
 
 def buttonpressed():
     print("button stopping sound")
-    pygame.mixer.music.stop()
-    #stopSound()
+    # pygame.mixer.music.stop()
+    stopSound()
 
 def switchRelayState(name): 
     for relay in relays: 
