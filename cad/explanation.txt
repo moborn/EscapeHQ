@@ -7,8 +7,8 @@ CAD overall
 
 3D printing
  - .3mf files created for the print jobs, storing colours/settings etc. Created with Bambu Studio
- - Printed on Bambu labs P1S
+ - Printed on Bambu Lab P1S, 0.4mm nozzle with AMS V1.
 
 Laser cutting
- - .svg files created with inkscape, following general laser cutting standard (red = cutting, black = engraving)
+ - .svg files created in inkscape, following general laser cutting standard (red = cutting, black = engraving)
  - Clear acrylic cut at UOA makerspace (trotec CO2 laser, diode lasers will not cut clear)

@@ -60,8 +60,9 @@ class MyHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('content-type', 'text/html')
         self.end_headers()
-
+        
         global complete
+        
         if self.path == '/room-service':
             if not complete:
                 complete=True

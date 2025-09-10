@@ -1,4 +1,4 @@
-from houdini import switchRelayState, buttonpressed
+from houdini import switchRelayState, buttonpressed, mixer
 
 
 import RPi.GPIO as GPIO

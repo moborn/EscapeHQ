@@ -5,8 +5,8 @@ import RPi.GPIO as GPIO
 import pygame
 import subprocess as sp
 
-
 pygame.mixer.init()
+
 logging.basicConfig(filename='relayLog.txt', level = logging.DEBUG, format='%(asctime)s %(message)s')
 
 #Logging
@@ -54,14 +54,16 @@ p15 = Relay(15, 0, "relay_7")  # Office Access (Keypad)
 relays = [p15]
 
 def playSound():
-    pygame.mixer.music.set_volume(1)
-    print("playing sound")
-    pygame.mixer.music.load("/home/pi/Scripts/jailalarm.mp3")
-    pygame.mixer.music.play(-1)
-
+    # pygame.mixer.music.set_volume(1)
+    # print("playing sound")
+    # pygame.mixer.music.load("/home/pi/Scripts/jailalarm.mp3")
+    # pygame.mixer.music.play(-1)
+    global player
+    player = sp.Popen(['python','player.py'], cwd='/home/pi/Scripts')
 def stopSound():
     print("stopping sound")
-    pygame.mixer.music.stop()
+    # pygame.mixer.music.stop()
+    sp.Popen.terminate(player)
 
 def buttonpressed():
     print("button stopping sound")
