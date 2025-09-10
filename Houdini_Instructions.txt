@@ -54,12 +54,12 @@ To set up a raspberrypi from new, follow the below instructions:
 	After=network-online.target
 	[Service]
 	Type=idle
-	ExecStart=/usr/bin/python3 -u houdini.py
-	WorkingDirectory=/home/pi/Scripts
-	StandardOutput=inherit
-	StandardError=inherit
-	Restart=on-failure
-	User=pi
+    ExecStart=/usr/bin/python3 -u houdini.py
+    WorkingDirectory=/home/pi/Scripts
+    StandardOutput=journal
+    StandardError=journal
+    Restart=on-failure
+    User=pi
 	[Install]
 	WantedBy=multi-user.target
 	# EOF
@@ -73,8 +73,6 @@ To set up a raspberrypi from new, follow the below instructions:
     sudo systemctl enable houdini.service
     sudo systemctl start houdini.service
     sudo systemctl stop houdini.service
-
-    mkdir Scripts
 
     sudo raspi-config
 
@@ -91,6 +89,7 @@ To set up a raspberrypi from new, follow the below instructions:
     #Here, install any other modules that your python script may use and are not auto installed with the OS (ie opencv, scikit etc)
     sudo apt install python3-pygame
     sudo apt install python3-RPi.GPIO
+    sudo apt-get install mpg123
 5. Close the terminal, and then re open a new terminal. Run the following command
 
     scp {full path to file on local computer} pi@{ip address}:/home/pi/Scripts

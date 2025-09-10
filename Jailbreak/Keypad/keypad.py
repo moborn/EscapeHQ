@@ -1,11 +1,24 @@
-from houdini import switchRelayState, buttonpressed, mixer
-
-
+from houdini import switchRelayState, stopSound
+#import houdini
+import pygame
 import RPi.GPIO as GPIO
 import time
-
+pygame.mixer.init()
+pygame.mixer.set_num_channels(1)
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
+
+#def playSound():
+ #   pygame.mixer.music.set_volume(1)
+  #  print("playing sound")
+   # pygame.mixer.music.load("/home/pi/Scripts/jailalarm.mp3")
+   # pygame.mixer.music.play(-1)
+   # global player
+   # player = sp.Popen(['python','player.py'], cwd='/home/pi/Scripts')
+#def stopSound():
+#    print("stopping sound")
+#    pygame.mixer.music.stop()
+    #sp.Popen.terminate(player)
 
 MATRIX = [
      [1,2,3],
@@ -25,8 +38,7 @@ GPIO.setup(button_input_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #
 
 
-# GPIO.setup(button_supply_pin, GPIO.OUT)
-
+# GPIO.setup(button_supply_pin, GPIO.OUT
 
 for j in range(3):
     GPIO.setup(COL[j], GPIO.OUT)
@@ -59,7 +71,7 @@ while True:
             time.sleep(0.5)
             switchRelayState("relay_7")
             print("correct code")
-             
+            input = []             
         else:
             print("incorrect code, waiting for *")
             ##wait in this loop for * to be pressed. then reset input to []
@@ -78,5 +90,5 @@ while True:
                 
     if GPIO.input(button_input_pin) == 0:
         print("Button pressed")
-        buttonpressed()
+        stopSound()
         break

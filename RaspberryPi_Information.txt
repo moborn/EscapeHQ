@@ -35,6 +35,7 @@ Write File | scp {full path to file on local computer} pi@{pi’s ip address}:/h
 Run Script | {filename}.py
 Copy File From Pi to Computer (this will copy to the root directory the terminal is in) | scp pi@{name}:/home/pi/{local path} .
 View Code | vim {filename}.py
+Check status of houdini autorun | sudo systemctl status houdini.service
 
 Components that are dependent on computer ip address (ie, if the computer changes, these need to be changed): 
 exitSoundService.py (both blizzards, moo) - playing the respective exit sound

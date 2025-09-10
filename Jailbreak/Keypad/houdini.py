@@ -5,8 +5,15 @@ import RPi.GPIO as GPIO
 import pygame
 import subprocess as sp
 
-pygame.mixer.init()
 
+###IT IS A AUDIO MODULE LOADER ISSUE.
+
+
+def init_pygame():
+    pygame.mixer.init()
+    pygame.mixer.set_num_channels(1)
+    chan = pygame.mixer.get_num_channels()
+    print(chan)
 logging.basicConfig(filename='relayLog.txt', level = logging.DEBUG, format='%(asctime)s %(message)s')
 
 #Logging
@@ -54,24 +61,38 @@ p15 = Relay(15, 0, "relay_7")  # Office Access (Keypad)
 relays = [p15]
 
 def playSound():
-    # pygame.mixer.music.set_volume(1)
-    # print("playing sound")
-    # pygame.mixer.music.load("/home/pi/Scripts/jailalarm.mp3")
-    # pygame.mixer.music.play(-1)
-    # global player
-    # player = sp.Popen(['python','player.py'], cwd='/home/pi/Scripts')
-
+#    pygame.mixer.music.set_volume(1)
+    
+  #  alarm = pygame.mixer.Sound("/home/pi/Scripts/jailalarm.mp3")
+ #   alarm.set_volume(1.0)
+#    alarm.play(-1)
+    #pygame.mixer.Sound.play(-1)
+    print("playing sound")
+   # pygame.mixer.music.load("/home/pi/Scripts/jailalarm.mp3")
+   # pygame.mixer.music.play(-1)
     ##vol is in millibels. not sure on range/scale
-    sp.Popen(['omxplayer', '--loop', '--vol', '0', '/home/pi/Scripts/jailalarm.mp3', '&'])
+    sp.Popen(['mpg123', '--loop','-1','--mono', '/home/pi/Scripts/jailalarm.mp3', '&'])
 def stopSound():
     print("stopping sound")
-    # pygame.mixer.music.stop()
-    # sp.Popen.terminate(player)
-    sp.Popen(['killall', 'omxplayer.bin'])
-
+    #try:
+     #   music =  pygame.mixer.music.get_busy()
+    #except pygame.error as e:
+    #    print(f"busy error: {e}")
+    #print(f"siren playing: {music}")
+    #try:
+    #    pygame.mixer.music.stop()
+#        instance.mixer.quit()
+ #       instance.mixer.stop()
+    #except pygame.error as e:
+    #    print(f"stop error: {e}")
+    #alarm.stop()
+    sp.Popen(['pkill', 'mpg123'])
 def buttonpressed():
     print("button stopping sound")
-    # pygame.mixer.music.stop()
+   # try:
+     #   instance.mixer.music.stop()
+    #except Exception as file_error:
+    #    print(f"error stopping music: {e}")    
     stopSound()
 
 def switchRelayState(name): 
@@ -102,7 +123,6 @@ class requestHandler(BaseHTTPRequestHandler):
             
         except IOError:
             self.send_error(500, "Server Error")
-
 def getLocalIP():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
@@ -116,11 +136,12 @@ def main():
     print("Attempting Connection")
     print(getLocalIP())
     print("running keypad script")
+    init_pygame()
     keypadscript()
     server_address = (getLocalIP(), PORT)
     server = HTTPServer(server_address, requestHandler)
     print("Server running")
     server.serve_forever() 
-
+    
 if __name__ == '__main__':
     main()
