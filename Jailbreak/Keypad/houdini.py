@@ -26,6 +26,11 @@ GPIO.setwarnings(False)
 DEBUG = False
 PORT = 15007
 button_input_pin = 22
+
+
+speaker_relay_pin = 16
+GPIO.setup(speaker_relay_pin, GPIO.OUT)
+GPIO.output(speaker_relay_pin, GPIO.LOW)
 #GPIO.setup(button_input_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 class Relay:
     def __init__(self, gpio, state, name):
@@ -72,6 +77,7 @@ def playSound():
    # pygame.mixer.music.play(-1)
     ##vol is in millibels. not sure on range/scale
     sp.Popen(['mpg123', '--loop','-1','--mono', '/home/pi/Scripts/jailalarm.mp3', '&'])
+    GPIO.output(speaker_relay_pin, GPIO.HIGH)
 def stopSound():
     print("stopping sound")
     #try:
@@ -86,6 +92,7 @@ def stopSound():
     #except pygame.error as e:
     #    print(f"stop error: {e}")
     #alarm.stop()
+    GPIO.output(speaker_relay_pin, GPIO.LOW)
     sp.Popen(['pkill', 'mpg123'])
 def buttonpressed():
     print("button stopping sound")

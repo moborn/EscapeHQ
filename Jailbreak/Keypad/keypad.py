@@ -76,7 +76,7 @@ while True:
             print("incorrect code, waiting for *")
             ##wait in this loop for * to be pressed. then reset input to []
             while True:
-                GPIO.output(COL[2],0)
+                GPIO.output(COL[0],0)
                 if GPIO.input(ROW[3]) == 0:  # Check if '*' is pressedpygame.init()
                     time.sleep(0.05)
                     if GPIO.input(ROW[3]) == 0:
@@ -88,7 +88,7 @@ while True:
                         GPIO.output(COL[2],1)
                         break
                 
-    if GPIO.input(button_input_pin) == 0:
+    if GPIO.input(button_input_pin) != 0:
         print("Button pressed")
         stopSound()
         break
