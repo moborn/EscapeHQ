@@ -33,9 +33,9 @@ Close the Advanced menu, go to Display Options > D2 (Screen Blanking) and pick N
 Finish config, and confirm save and reboot.
 7) Changing the hostname can cause an issue with Chromium browser not opening. To fix that, open a terminal and run the command:
      rm -rf ~/.config/chromium/Singleton*
-8) Open the web browser and go to https://github.com/debloper/piosk
-   - Scroll to the "1.2 Installation" section, and execute the command there.
-   - Then run:
+8) Run
+     curl -sSL https://raw.githubusercontent.com/debloper/piosk/v4.0.0/scripts/setup.sh | sudo bash -
+Then run:
      sudo reboot now
 9) Once rebooted, Alt+F4 to get back to the desktop. Then run the following commands in the terminal:
      sudo nano /opt/piosk/scripts/switcher.sh
@@ -44,8 +44,54 @@ Finish config, and confirm save and reboot.
      exit 0
 11) Press [Ctrl]+[x] to exit, press [Enter] to confirm to save changes
 12) sudo nano /opt/piosk/scripts/runner.sh
-     - delete the line "--enable-low-end-device-mode \"
-     - below '--no-first-run \', add '--autoplay-policy=no-user-gesture-required \'
+     the options for the command should be:
+          --disable-component-update \
+          --disable-composited-antialiasing \
+          --disable-infobars \
+          --disable-low-res-tiling \
+          --disable-pinch \
+          --disable-session-crashed-bubble \
+          --disable-smooth-scrolling \
+          --disable-gpu \
+          --disable-accelerated-video-decode \
+          --disable-gpu-compositing \
+          --force-device-scale-factor=1 \
+          --kiosk \
+          --no-first-run \
+          --autoplay-policy=no-user-gesture-required \
+          --enable-offline-auto-reload \
+          --noerrdialogs
+13) sudo nano /etc/systemd/system/piosk-dashboard.service
+          change line 3 from 'After=network.target' to 'After=network-online.target'
+     sudo nano /etc/systemd/system/piosk-runner.service
+          change line 3 from 'After=network.target' to 'After=network-online.target'
      sudo reboot now
-13) When rebooting, before the browser automatically opens, the Raspberry Pi's IP will display in the top right. Take note of that, then from a different computer/device on the network, browse to that IP address, e.g. 192.168.178.143
-14) Click the x's next to all the URLs showing in the list, then add the Houdini URL for the display at the top and click 'Add' then 'Apply'.
+14) When rebooting, before the browser automatically opens, the Raspberry Pi's IP will display in the top right. Take note of that, then from a different computer/device on the network, browse to that IP address, e.g. 192.168.178.143
+15) Click the x's next to all the URLs showing in the list, then add the Houdini URL for the display at the top and click 'Add' then 'Apply'.
+
+
+
+
+
+
+
+#!/bin/bash
+chromium-browser \
+  $(jq -r '.urls | map(.url) | join(" ")' /opt/pio>  --disable-component-update \
+  --disable-composited-antialiasing \
+  --disable-gpu-driver-bug-workarounds \
+  --disable-infobars \
+  --disable-low-res-tiling \
+  --disable-pinch \
+  --disable-session-crashed-bubble \
+  --disable-smooth-scrolling \
+  --enable-accelerated-video-decode \
+  --enable-gpu-rasterization \
+  --enable-oop-rasterization \
+  --force-device-scale-factor=1 \
+  --ignore-gpu-blocklist \
+  --kiosk \
+  --no-first-run \
+  --autoplay-policy=no-user-gesture-required \     
+  --enable-offline-auto-reload \
+  --noerrdialogs

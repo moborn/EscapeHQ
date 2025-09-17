@@ -132,3 +132,6 @@ YOUR RASPBERRY PI SHOULD NOW BE FULLY SET UP
 
     Select: Save action -> OK
 
+
+
+systemctl --user status houdini.service
