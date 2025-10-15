@@ -37,6 +37,15 @@ void loop() {
     int code[] = {0,0,0,0};
     int index = 0;
     //
+    if (digitalRead(Rin) == LOW && easy_order[index] == 1){
+      delay(20); //20ms debounce
+      while(digitalRead(Rin) == LOW){
+      //this acts as a pass if the button is held down
+      }
+      code[index] = 1;
+      index++;
+    }
+
     if (code == easy_order){
       digitalWrite(relay, HIGH);
       code_correct = true;
