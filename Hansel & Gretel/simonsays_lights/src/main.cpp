@@ -26,7 +26,7 @@ int colors[4][3] = {
 
 int easy_rate = 1000; //milliseconds
 int hard_rate = 250;
-int rpi_control = 0;
+int rpi_control = 10;
 
 void setup() {
   Serial.begin(9600);
