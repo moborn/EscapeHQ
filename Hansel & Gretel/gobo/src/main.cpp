@@ -7,12 +7,13 @@ int output = (Desired_Average_Voltage / Vp) * 255;
 int LDR_pin = A0;
 int LDR_read = 0;
 int threshold = 0;
-int calibration_total = 0;
+long int calibration_total = 0;
 int laser_pin = 2;
+int override_pin = 7;
 
 
 int brightStart = 0;
-int requiredMillis = 2000; // 2 seconds
+int requiredMillis = 1000; // 1 seconds
 
 
 bool cylinders_complete = false;
@@ -34,6 +35,7 @@ void setup() {
   pinMode(LED_pin, OUTPUT);
   pinMode(LDR_pin, INPUT);
   pinMode(laser_pin, OUTPUT);
+  pinMode(override_pin, INPUT);
   digitalWrite(laser_pin, HIGH); //turn on laser
   analogWrite(LED_pin, 0); //ensure LED off
   threshold = get_ambient_light_level();
@@ -46,10 +48,9 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-
   while (cylinders_complete == false){
     LDR_read = analogRead(LDR_pin);
-    Serial.println(LDR_read);
+    // Serial.println(LDR_read);
 
 
     if (LDR_read > threshold * 2) {//currently arbitrary, if light level is double ambient
@@ -60,7 +61,15 @@ void loop() {
         digitalWrite(laser_pin, LOW);
         cylinders_complete = true;
       }
-    } else {
+    } 
+    else if (digitalRead(override_pin) != HIGH){
+      Serial.println("OVERRIDE");
+      analogWrite(LED_pin, output);
+      digitalWrite(laser_pin, LOW);
+      cylinders_complete = true;
+    }
+    
+    else {
       // reset timer and ensure LED off / laser on
       brightStart = 0;
       analogWrite(LED_pin, 0);
@@ -69,8 +78,5 @@ void loop() {
   }
 
 
-
-  // delay(1000);
-  // analogWrite(LED_pin, output);
 }
 

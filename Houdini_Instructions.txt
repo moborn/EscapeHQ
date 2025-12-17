@@ -23,7 +23,7 @@ To set up a raspberrypi from new, follow the below instructions:
     Make sure that you configure SSH in this step. You will be prompted for the username, IP address, and password
     * username = pi
     * password = ehqtech@p7#
-    * IP address can be whatever you want, although room/puzzle name would make sense
+    * IP address/hostname can be whatever you want, although room/puzzle name would make sense
     Continue following imager instructions, flashing OS to the microSD card
 
 3. Connect via ssh (secure socket) to the raspberrypi for the first time
@@ -90,6 +90,8 @@ To set up a raspberrypi from new, follow the below instructions:
     sudo apt install python3-pygame
     sudo apt install python3-RPi.GPIO
     sudo apt-get install mpg123
+
+    mkdir Scripts
 5. Close the terminal, and then re open a new terminal. Run the following command
 
     scp {full path to file on local computer} pi@{ip address}:/home/pi/Scripts
@@ -97,7 +99,6 @@ To set up a raspberrypi from new, follow the below instructions:
     It is important here that your main script file (ie, the one that interfaces with houdini) is titled 'houdini.py'.
     In line 57 and 58 of this document, 'Scripts/houdini.py' is the file configured to run on raspberrypi startup.
     So make sure your file is named correctly. 
-
 YOUR RASPBERRY PI SHOULD NOW BE FULLY SET UP
 
 6. Now the webrequests can be set up on the PC
