@@ -70,28 +70,3 @@ Then run:
 15) Click the x's next to all the URLs showing in the list, then add the Houdini URL for the display at the top and click 'Add' then 'Apply'.
 
 
-
-
-
-
-
-#!/bin/bash
-chromium-browser \
-  $(jq -r '.urls | map(.url) | join(" ")' /opt/pio>  --disable-component-update \
-  --disable-composited-antialiasing \
-  --disable-gpu-driver-bug-workarounds \
-  --disable-infobars \
-  --disable-low-res-tiling \
-  --disable-pinch \
-  --disable-session-crashed-bubble \
-  --disable-smooth-scrolling \
-  --enable-accelerated-video-decode \
-  --enable-gpu-rasterization \
-  --enable-oop-rasterization \
-  --force-device-scale-factor=1 \
-  --ignore-gpu-blocklist \
-  --kiosk \
-  --no-first-run \
-  --autoplay-policy=no-user-gesture-required \     
-  --enable-offline-auto-reload \
-  --noerrdialogs

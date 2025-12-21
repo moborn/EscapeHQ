@@ -3,12 +3,12 @@ for manufacturing:
 
 CAD overall
  - done in onshape, folders can't be shared with just a link - but files can.
- - folders have to be shared to specific users (i will create onshape accounts for EHQ and give permissions)
+ - folders have to be shared to specific users (i should create onshape accounts for EHQ and give permissions)
 
 3D printing
- - .3mf files created for the print jobs, storing colours/settings etc. Created with Bambu Studio
- - Printed on Bambu Lab P1S, 0.4mm nozzle with AMS V1.
+ - .3mf files created for the print jobs, storing (I think) colours/settings etc. Created with Bambu Studio
+ - Printed on Bambu Lab P1S, 0.4mm nozzle with AMS V1. All prints have been PLA
 
 Laser cutting
  - .svg files created in inkscape, following general laser cutting standard (red = cutting, black = engraving)
- - Clear acrylic cut at UOA makerspace (trotec CO2 laser, diode lasers will not cut clear)
+ - acrylic, ply, cut at UOA makerspace (trotec CO2 laser, diode lasers will not cut clear)
