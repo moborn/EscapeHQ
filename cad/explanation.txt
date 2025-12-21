@@ -1,4 +1,4 @@
-last updated 02/08/2025
+last updated 21/12/2025
 for manufacturing:
 
 CAD overall
@@ -7,6 +7,7 @@ CAD overall
 
 3D printing
  - .3mf files created for the print jobs, storing (I think) colours/settings etc. Created with Bambu Studio
+ - I think the .3mf are bambu slicer proprietary? I'm not sure. but should store plates, colours etc
  - Printed on Bambu Lab P1S, 0.4mm nozzle with AMS V1. All prints have been PLA
 
 Laser cutting

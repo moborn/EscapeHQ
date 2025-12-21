@@ -1,12 +1,13 @@
 Collated by Michael Oborn
 
-Readme last edited 21/02/2025
+Readme last edited 21/12/2025
 
 
 This is the github repo for all technical documents used/required at Escape HQ
 
-Currently this is just storing code, 
-however in future should include circuit diagrams and hardware lists for each puzzle
+Code is seperated by room and then puzzle, ie root -> 'Blizzard' -> 'Ski_Poles' is the folder containing ski poles code
+
+CAD work is in the folder aptly named cad, details of file types and contents in explanation.txt
 
 Arduino sketches should be managed in VS code, through an extension called 'PlatformIO'
 Use of PlatformIO and VS code allows for good integration with GitHub, for file/version management
@@ -28,4 +29,4 @@ Also (just like arduino) it struggles when there's multiple 'main.cpp' files and
 
 .fzz files are fritzing files! these are circuit diagrams!!! I've mostly only found for Moo as of yet, but very good to have
 we can continue this trend and create further circuit documents also in fritzing, rather than changing software
-fritzing is a $15 fee to download
+fritzing is a $15 fee to download i believe.
