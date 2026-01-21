@@ -44,9 +44,9 @@ void setup() {
  Serial.println(F("\n -- Arduino Start -- "));
  Serial.print(F("Unlock Sequence: "));
 //  for(int i = 0; i < s_length; i++){
-//    Serial.print(Sequence[i]);
-//    if (i < s_length-1) Serial.print(F(" -> "));
-//    else Serial.println();
+  //  Serial.print(Sequence[i]);
+  //  if (i < s_length-1) Serial.print(F(" -> "));
+  //  else Serial.println();
 //  }
 }
 

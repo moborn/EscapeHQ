@@ -66,84 +66,7 @@ byte openBeepCount = 0;
 bool openBeepOn = false;
 long openStateStartLoop = 0;
 
-void setup() {
-    byte numDigits = 4;  
-    byte digitPins[] = {2, 5, 6, 8};
-    byte segmentPins[] = {3,7,10,12,13,4,9,11};
-    bool resistorsOnSegments = 0;
-    bool updateWithDelays = false;
-    bool leadingZeros = false;
-    bool disableDecPoint = true;
-    
-    sevseg.begin(COMMON_CATHODE, numDigits, digitPins, segmentPins, 
-                 resistorsOnSegments, updateWithDelays, leadingZeros, disableDecPoint);
-    // Brightness range from 200 to -200. Above 100 can flicker, 90 to be safe from flickering is still very bright and visible in daylight.
-    sevseg.setBrightness(90); 
-    
-    startingStateStartLoop = 0; // Will start from loop 0
-    
-    // Set up keypad pins
-    for (byte i = 0; i < ROWS; i++) {
-        pinMode(keypadRowPins[i], OUTPUT);
-        digitalWrite(keypadRowPins[i], HIGH);
-    }
-    for (byte i = 0; i < COLS; i++) {
-        pinMode(keypadColPins[i], INPUT_PULLUP);
-    }
-    
-    // Set up pins
-    pinMode(OVERRIDE_PIN, INPUT);
-    pinMode(BUZZER_PIN, OUTPUT);
-    pinMode(RELAY_PIN, OUTPUT);
-    pinMode(DOOR_OPEN_PIN, OUTPUT);
-    digitalWrite(BUZZER_PIN, LOW);
-    digitalWrite(RELAY_PIN, LOW);
-    digitalWrite(DOOR_OPEN_PIN, LOW);
-    
-    sevseg.blank(); // Start with blank display (will be overridden by starting state)
-}
 
-void loop() {
-    sevseg.refreshDisplay(); // Must run repeatedly
-
-    // Check for override signal - if received, immediately go to OPEN state
-    if (digitalRead(OVERRIDE_PIN) == HIGH && currentState != STATE_OPEN) {
-        currentState = STATE_OPEN;
-        openStateStartLoop = loopNum;
-        openBeepCount = 0;
-        openBeepOn = false;
-    }
-
-    unsigned long currentMillis = millis();
-
-    if (currentMillis - previousUpdate >= updateIntervalMs) {
-        previousUpdate = currentMillis;
-        loopNum++;
-        
-        // State machine logic
-        switch (currentState) {
-            case STATE_STARTING:
-                handleStartingState();
-                break;
-                
-            case STATE_INPUT:
-                handleInputState();
-                break;
-                
-            case STATE_WAIT:
-                handleWaitState();
-                break;
-                
-            case STATE_OPEN:
-                handleOpenState();
-                break;
-                
-            case STATE_NO:
-                handleNoState();
-                break;
-        }
-    }
-}
 
 char scanKeypad() {
     char key = 0;
@@ -191,6 +114,9 @@ char scanKeypad() {
     
     return 0; // No new key press
 }
+
+
+
 
 void handleStartingState() {
     // Animation timing constants (all at half speed by multiplying by 2)
@@ -390,6 +316,87 @@ void handleNoState() {
             sevseg.setChars(" NO ");
         } else {
             sevseg.setChars("    ");
+        }
+    }
+}
+
+
+
+void setup() {
+    byte numDigits = 4;  
+    byte digitPins[] = {2, 5, 6, 8};
+    byte segmentPins[] = {3,7,10,12,13,4,9,11};
+    bool resistorsOnSegments = 0;
+    bool updateWithDelays = false;
+    bool leadingZeros = false;
+    bool disableDecPoint = true;
+    
+    sevseg.begin(COMMON_CATHODE, numDigits, digitPins, segmentPins, 
+                 resistorsOnSegments, updateWithDelays, leadingZeros, disableDecPoint);
+    // Brightness range from 200 to -200. Above 100 can flicker, 90 to be safe from flickering is still very bright and visible in daylight.
+    sevseg.setBrightness(90); 
+    
+    startingStateStartLoop = 0; // Will start from loop 0
+    
+    // Set up keypad pins
+    for (byte i = 0; i < ROWS; i++) {
+        pinMode(keypadRowPins[i], OUTPUT);
+        digitalWrite(keypadRowPins[i], HIGH);
+    }
+    for (byte i = 0; i < COLS; i++) {
+        pinMode(keypadColPins[i], INPUT_PULLUP);
+    }
+    
+    // Set up pins
+    pinMode(OVERRIDE_PIN, INPUT_PULLUP);
+    pinMode(BUZZER_PIN, OUTPUT);
+    pinMode(RELAY_PIN, OUTPUT);
+    pinMode(DOOR_OPEN_PIN, OUTPUT);
+    digitalWrite(BUZZER_PIN, LOW);
+    digitalWrite(RELAY_PIN, LOW);
+    digitalWrite(DOOR_OPEN_PIN, LOW);
+    
+    sevseg.blank(); // Start with blank display (will be overridden by starting state)
+}
+
+void loop() {
+    sevseg.refreshDisplay(); // Must run repeatedly
+
+    // Check for override signal - if received, immediately go to OPEN state
+    if (digitalRead(OVERRIDE_PIN) == LOW && currentState != STATE_OPEN) {
+        currentState = STATE_OPEN;
+        openStateStartLoop = loopNum;
+        openBeepCount = 0;
+        openBeepOn = false;
+    }
+
+    unsigned long currentMillis = millis();
+
+    if (currentMillis - previousUpdate >= updateIntervalMs) {
+        previousUpdate = currentMillis;
+        loopNum++;
+        
+        // State machine logic
+        switch (currentState) {
+            case STATE_STARTING:
+                handleStartingState();
+                break;
+                
+            case STATE_INPUT:
+                handleInputState();
+                break;
+                
+            case STATE_WAIT:
+                handleWaitState();
+                break;
+                
+            case STATE_OPEN:
+                handleOpenState();
+                break;
+                
+            case STATE_NO:
+                handleNoState();
+                break;
         }
     }
 }
